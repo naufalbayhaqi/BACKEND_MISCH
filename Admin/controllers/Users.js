@@ -6,7 +6,7 @@ export const getAdmin = async (req, res) => {
         const users = await Admin.findAll();
         res.send(users);
     } catch (err) {
-        console.log(err);
+        res.status(400).send(err)
     }
 }
  
@@ -17,15 +17,15 @@ export const getAdminbyUsername = async (req, res) => {
                 username: req.params.username
             }
         });
-        res.send(users[0]);
+        return res.send(users[0]);
     } catch (err) {
-        console.log(err);
+        res.status(400).send(err)
     }
 }
 
 export const createAdmin = async (req, res) => {
     try {
-        const usersExists = await Admin.findAll({
+        const usersExists = await Admin.findOne({
             where:{
                 username : req.body.username
             }
@@ -95,7 +95,7 @@ export const getScholarbyAlias = async (req, res) => {
  
 export const createScholar = async (req, res) => {
     try {
-        const scholarExists = await Scholar.findAll({
+        const scholarExists = await Scholar.findOne({
             where:{
                 alias : req.body.alias
             }

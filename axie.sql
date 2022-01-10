@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2022 at 10:08 PM
+-- Generation Time: Jan 10, 2022 at 01:03 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -60,7 +60,7 @@ CREATE TABLE `formscholar` (
 CREATE TABLE `scholar` (
   `id` int(11) NOT NULL,
   `nama` varchar(255) DEFAULT NULL,
-  `manager` varchar(255) DEFAULT NULL,
+  `tenant` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
   `tgllahir` date DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE `scholar` (
   `updatedAt` date DEFAULT NULL,
   `mmr` int(11) DEFAULT NULL,
   `ingameslp` int(11) DEFAULT NULL,
-  `lastclaim` float DEFAULT NULL,
+  `lastclaim` int(11) DEFAULT NULL,
   `nextclaim` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

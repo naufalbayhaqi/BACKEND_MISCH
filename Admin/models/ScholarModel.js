@@ -7,7 +7,7 @@ const Scholar = db.define('scholar',{
     nama:{
         type: DataTypes.STRING
     },
-    manager:{
+    tenant:{
         type: DataTypes.STRING
     },
     alias:{
@@ -39,6 +39,18 @@ const Scholar = db.define('scholar',{
     },
     managerpshare:{
         type: DataTypes.NUMBER
+    },
+    mmr:{
+        type: DataTypes.NUMBER
+    },
+    ingameslp:{
+        type: DataTypes.NUMBER
+    },
+    lastclaim:{
+        type: DataTypes.NUMBER
+    },
+    nextclaim:{
+        type: DataTypes.DATE
     }
 },{
     freezeTableName:true
