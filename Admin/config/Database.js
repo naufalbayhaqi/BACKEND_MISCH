@@ -1,8 +1,15 @@
-import {Sequelize} from "sequelize";
+import { Sequelize } from "sequelize";
+import mysql from "mysql2";
 
-const db = new Sequelize('axie','root','',{
-    host: "localhost",
-    dialect: "mysql"
+export const db = new Sequelize("axie", "root", "", {
+  host: "localhost",
+  dialect: "mysql",
 });
 
-export default db;
+export var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "axie",
+  multipleStatements: true,
+});
