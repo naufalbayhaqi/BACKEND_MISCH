@@ -4,6 +4,10 @@ import db from "../config/Database.js";
 const { DataTypes } = Sequelize;
 
 const Scholar = db.define('scholar',{
+    id:{
+        type: DataTypes.STRING,
+        primaryKey: true
+    },
     nama:{
         type: DataTypes.STRING
     },

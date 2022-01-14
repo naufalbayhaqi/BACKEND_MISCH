@@ -21,15 +21,15 @@ router.delete('/admin/:username', deleteAdmin);
 
 import { 
     getScholar,
-    getScholarbyAlias,
+    getScholarbyId,
     createScholar,
     updateScholar,
     deleteScholar
  } from "../controllers/Users.js";
 
 router.get('/scholar', getScholar);
-router.get('/scholar/:alias', getScholarbyAlias);
+router.get('/scholar/:id', getScholarbyAlias);
 router.post('/scholar', createScholar);
-router.put('/scholar/:alias', updateScholar);
-router.delete('/scholar/:alias', deleteScholar);
+router.put('/scholar/:id', updateScholar);
+router.delete('/scholar/:id', deleteScholar);
 export default router;

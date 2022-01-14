@@ -84,7 +84,7 @@ export const getScholarbyAlias = async (req, res) => {
     try {
         const users = await Scholar.findAll({
             where: {
-                alias: req.params.alias
+                id: req.params.id
             }
         });
         res.send(users[0]);
@@ -114,7 +114,7 @@ export const updateScholar = async (req, res) => {
     try {
         await Scholar.update(req.body, {
             where: {
-                alias: req.params.alias
+                id: req.params.id
             }
         });
         res.json({
@@ -129,7 +129,7 @@ export const deleteScholar = async (req, res) => {
     try {
         await Scholar.destroy({
             where: {
-                alias: req.params.alias
+                id: req.params.id
             }
         });
         res.json({
