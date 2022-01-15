@@ -103,12 +103,16 @@ export const createScholar = async (req, res) => {
         alias: req.body.alias,
       },
     });
+    if (req.body.addressronin.slice(0, 2) !== "0x") {
+      req.body.addressronin = "0x".concat(req.body.addressronin.slice(6));
+    }
     if (scholarExists)
       return res.status(400).json({ msg: "Alias telah terdaftar" });
     await Scholar.create(req.body);
     res.json({
       message: "Scholar Created",
     });
+    getSLP(req.body.addressronin);
   } catch (err) {
     console.log(err);
   }
@@ -116,11 +120,15 @@ export const createScholar = async (req, res) => {
 
 export const updateScholar = async (req, res) => {
   try {
+    if (req.body.addressronin.slice(0, 2) !== "0x") {
+      req.body.addressronin = "0x".concat(req.body.addressronin.slice(6));
+    }
     await Scholar.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
+    getSLP(req.body.addressronin);
     res.json({
       message: "Scholar Updated",
     });
