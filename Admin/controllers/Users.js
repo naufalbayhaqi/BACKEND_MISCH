@@ -152,22 +152,28 @@ const getSLP = async (address) => {
       },
     })
     .then(function (response) {
-      // res.json(response.data);
       var mmr = JSON.stringify(response.data.mmr);
       var ingameslp = parseInt(response.data.in_game_slp);
-      var last_claim = parseInt(response.data.last_claim);
+      var last_claim = new Date(response.data.last_claim * 1000)
+        .toISOString()
+        .slice(0, 10);
       var addressronin = address;
-      var lastclaim = Number(
+      var next_claim = new Date(response.data.next_claim * 1000)
+        .toISOString()
+        .slice(0, 10);
+      var average = Number(
         (
           ingameslp /
-          Math.ceil((Math.floor(Date.now() / 1000) - last_claim) / 86400)
+          Math.ceil(
+            (Math.floor(Date.now() / 1000) - response.data.last_claim) / 86400
+          )
         ).toFixed(2)
       );
       var sql =
-        "UPDATE scholar set mmr=?, ingameslp=?, lastclaim=? where addressronin=?";
+        "UPDATE scholar set mmr=?, ingameslp=?, average=?, lastclaim=?, nextclaim=? where addressronin=?";
       con.query(
         sql,
-        [mmr, ingameslp, lastclaim, addressronin],
+        [mmr, ingameslp, average, last_claim, next_claim, addressronin],
         function (err, result) {
           console.log(result);
           // console.log(err);

@@ -53,10 +53,13 @@ const Scholar = db.define(
       type: DataTypes.NUMBER,
     },
     lastclaim: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DATE,
     },
     nextclaim: {
       type: DataTypes.DATE,
+    },
+    average: {
+      type: DataTypes.NUMBER,
     },
   },
   {
