@@ -215,14 +215,7 @@ export const getDataById = async (req, res) => {
         id: req.params.id,
       },
     });
-    res.json({
-      mmr: user[0].mmr,
-      ingameslp: user[0].ingameslp,
-      average: user[0].average,
-      last_claim: user[0].last_claim,
-      next_claim: user[0].next_claim,
-      addressronin: user[0].addressronin,
-    });
+    getSLP(user[0].addressronin);
   } catch (err) {
     console.log(err);
   }
