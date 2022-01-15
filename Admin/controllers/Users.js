@@ -215,16 +215,3 @@ export async function isiData() {
     })();
   }
 }
-
-export const getDataById = async (req, res) => {
-  try {
-    const user = await Scholar.findAll({
-      where: {
-        id: req.params.id,
-      },
-    });
-    getSLP(user[0].addressronin);
-  } catch (err) {
-    console.log(err);
-  }
-};

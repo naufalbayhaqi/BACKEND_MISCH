@@ -9,7 +9,6 @@ import {
   updateAdmin,
   deleteAdmin,
   isiData,
-  getDataById,
 } from "../controllers/Users.js";
 
 const router = express.Router();
@@ -36,6 +35,5 @@ router.post("/scholar", createScholar);
 router.put("/scholar/:id", updateScholar);
 router.delete("/scholar/:id", deleteScholar);
 router.post("/refreshdata", isiData);
-router.get("/scholar/data/:id", getDataById);
 cron.schedule("0 7 * * *", isiData);
 export default router;
