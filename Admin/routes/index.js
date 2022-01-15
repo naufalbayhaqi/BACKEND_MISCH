@@ -34,5 +34,5 @@ router.get("/scholar/:id", getScholarbyAlias);
 router.post("/scholar", createScholar);
 router.put("/scholar/:id", updateScholar);
 router.delete("/scholar/:id", deleteScholar);
-cron.schedule("*/10 * * * * *", isiData);
+cron.schedule("0 7 * * *", isiData);
 export default router;
