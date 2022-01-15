@@ -152,36 +152,45 @@ const getSLP = async (address) => {
       },
     })
     .then(function (response) {
-      var mmr = JSON.stringify(response.data.mmr);
-      var ingameslp = parseInt(response.data.in_game_slp);
-      var last_claim = new Date(response.data.last_claim * 1000)
-        .toISOString()
-        .slice(0, 10);
-      var addressronin = address;
-      var next_claim = new Date(response.data.next_claim * 1000)
-        .toISOString()
-        .slice(0, 10);
-      var average = Number(
-        (
-          ingameslp /
-          Math.ceil(
-            (Math.floor(Date.now() / 1000) - response.data.last_claim) / 86400
-          )
-        ).toFixed(2)
-      );
-      var sql =
-        "UPDATE scholar set mmr=?, ingameslp=?, average=?, lastclaim=?, nextclaim=? where addressronin=?";
-      con.query(
-        sql,
-        [mmr, ingameslp, average, last_claim, next_claim, addressronin],
-        function (err, result) {
+      if (response.data.mmr) {
+        var mmr = JSON.stringify(response.data.mmr);
+        var ingameslp = parseInt(response.data.in_game_slp);
+        var last_claim = new Date(response.data.last_claim * 1000)
+          .toISOString()
+          .slice(0, 10);
+        var addressronin = address;
+        var next_claim = new Date(response.data.next_claim * 1000)
+          .toISOString()
+          .slice(0, 10);
+        var average = Number(
+          (
+            ingameslp /
+            Math.ceil(
+              (Math.floor(Date.now() / 1000) - response.data.last_claim) / 86400
+            )
+          ).toFixed(2)
+        );
+        var sql =
+          "UPDATE scholar set mmr=?, ingameslp=?, average=?, lastclaim=?, nextclaim=? where addressronin=?";
+        con.query(
+          sql,
+          [mmr, ingameslp, average, last_claim, next_claim, addressronin],
+          function (err, result) {
+            console.log(result);
+            // console.log(err);
+          }
+        );
+      } else {
+        var sql =
+          "UPDATE scholar set mmr=NULL, ingameslp=NULL, average=NULL, lastclaim=NULL, nextclaim=NULL where addressronin=?";
+        con.query(sql, [address], function (err, result) {
           console.log(result);
           // console.log(err);
-        }
-      );
+        });
+      }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
       // return res;
     });
 };
