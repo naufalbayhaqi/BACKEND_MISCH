@@ -83,7 +83,7 @@ export const getScholar = async (req, res) => {
   }
 };
 
-export const getScholarbyAlias = async (req, res) => {
+export const getScholarbyId = async (req, res) => {
   try {
     const users = await Scholar.findAll({
       where: {
@@ -207,3 +207,23 @@ export async function isiData() {
     })();
   }
 }
+
+export const getDataById = async (req, res) => {
+  try {
+    const user = await Scholar.findAll({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json({
+      mmr: user[0].mmr,
+      ingameslp: user[0].ingameslp,
+      average: user[0].average,
+      last_claim: user[0].last_claim,
+      next_claim: user[0].next_claim,
+      addressronin: user[0].addressronin,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
