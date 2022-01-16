@@ -49,15 +49,23 @@ export const getDaily = async (req, res) => {
     });
     res.send(slp);
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
 export const getAllDaily = async (req, res) => {
   try {
-    const slp = await SLP.findAll();
+    const slp = await SLP.findAll({
+      attributes: [
+        "date",
+        [Sequelize.fn("sum", Sequelize.col("daily")), "total_daily"],
+        [Sequelize.fn("sum", Sequelize.col("akumulasi")), "total_akumulasi"],
+      ],
+      group: ["date"],
+      raw: true,
+    });
     res.send(slp);
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };

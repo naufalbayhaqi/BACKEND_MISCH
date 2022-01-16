@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2022 at 07:35 PM
+-- Generation Time: Jan 16, 2022 at 07:45 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -109,10 +109,10 @@ CREATE TABLE `slp` (
 INSERT INTO `slp` (`date`, `daily`, `akumulasi`, `tenant`) VALUES
 ('2022-01-15', 100, 100, 'memek'),
 ('2022-01-15', 150, 150, 'kontol'),
-('2022-01-16', 151, 151, 'kontol'),
-('2022-01-16', 150, 150, 'memek'),
-('2022-01-17', 155, 155, 'memek'),
-('2022-01-17', 165, 165, 'kontol');
+('2022-01-16', 151, 301, 'kontol'),
+('2022-01-16', 150, 250, 'memek'),
+('2022-01-17', 155, 405, 'memek'),
+('2022-01-17', 165, 466, 'kontol');
 
 -- --------------------------------------------------------
 
