@@ -15,13 +15,24 @@ export const getDaily = async (req, res) => {
       raw: true,
     });
     const slp = await SLP.findAll({
+      attributes: [
+        "*",
+        [
+          Sequelize.literal(
+            `COALESCE(akumulasi - (SELECT akumulasi FROM slp slp2 where slp2.date < slp.date AND slp2.tenant = slp.tenant order by slp2.date DESC limit 1 ),slp.akumulasi )`
+          ),
+          "daily",
+        ],
+      ],
       raw: true,
     });
+    const date = new Date().toJSON().slice(0, 10);
+    users.map((o) => (o.date = date));
+    // console.log(slp);
     await SLP.bulkCreate(users);
     res.json({
       message: "KONTOL",
     });
-    console.log(slp);
   } catch (err) {
     res.status(400).send(err);
   }
