@@ -103,9 +103,6 @@ export const createScholar = async (req, res) => {
         alias: req.body.alias,
       },
     });
-    if (req.body.addressronin.slice(0, 2) !== "0x") {
-      req.body.addressronin = "0x".concat(req.body.addressronin.slice(6));
-    }
     if (scholarExists)
       return res.status(400).json({ msg: "Alias telah terdaftar" });
     await Scholar.create(req.body);
@@ -120,9 +117,6 @@ export const createScholar = async (req, res) => {
 
 export const updateScholar = async (req, res) => {
   try {
-    if (req.body.addressronin.slice(0, 2) !== "0x") {
-      req.body.addressronin = "0x".concat(req.body.addressronin.slice(6));
-    }
     await Scholar.update(req.body, {
       where: {
         id: req.params.id,
