@@ -29,9 +29,10 @@ export const isiDaily = async (req, res) => {
       ],
       raw: true,
     });
-    await SLP.destroy({ truncate: true, cascade: false }).then(() => {
-      SLP.bulkCreate(slp);
-    });
+    console.log(slp);
+    // await SLP.destroy({ truncate: true, cascade: false }).then(() => {
+    //   SLP.bulkCreate(slp);
+    // });
     res.json({
       message: "KONTOL",
     });
@@ -58,8 +59,8 @@ export const getAllDaily = async (req, res) => {
     const slp = await SLP.findAll({
       attributes: [
         "date",
-        [Sequelize.fn("sum", Sequelize.col("daily")), "total_daily"],
-        [Sequelize.fn("sum", Sequelize.col("akumulasi")), "total_akumulasi"],
+        [Sequelize.fn("sum", Sequelize.col("daily")), "total daily"],
+        [Sequelize.fn("sum", Sequelize.col("akumulasi")), "total akumulasi"],
       ],
       group: ["date"],
       raw: true,
