@@ -14,6 +14,9 @@ export const getDaily = async (req, res) => {
       group: ["tenant"],
       raw: true,
     });
+    const date = new Date().toJSON().slice(0, 10);
+    users.map((o) => (o.date = date));
+    await SLP.bulkCreate(users);
     const slp = await SLP.findAll({
       attributes: [
         "*",
@@ -26,10 +29,9 @@ export const getDaily = async (req, res) => {
       ],
       raw: true,
     });
-    const date = new Date().toJSON().slice(0, 10);
-    users.map((o) => (o.date = date));
-    // console.log(slp);
-    await SLP.bulkCreate(users);
+    await SLP.destroy({ truncate: true, cascade: false }).then(() => {
+      SLP.bulkCreate(slp);
+    });
     res.json({
       message: "KONTOL",
     });
