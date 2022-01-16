@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2022 at 06:58 AM
+-- Generation Time: Jan 16, 2022 at 02:24 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -85,8 +85,32 @@ CREATE TABLE `scholar` (
 --
 
 INSERT INTO `scholar` (`id`, `nama`, `tenant`, `alias`, `tgllahir`, `gender`, `email`, `nowa`, `earningrating`, `addressronin`, `scholarpshare`, `ownerpshare`, `managerpshare`, `createdAt`, `updatedAt`, `mmr`, `ingameslp`, `lastclaim`, `nextclaim`, `average`) VALUES
-(2, 'Tes', NULL, 'kontol1', '2022-01-10', 'Male', 'Tos@gmail.com', '12312412', NULL, 'ronin:335a277d86f8731f3bcb46ead044342b6a9532db', 22, 22, 0, '2022-01-10', '2022-01-10', 1112, 648, '2022-01-10', '2022-01-24', '108.00'),
-(4, 'a', NULL, 'c', '2022-01-10', 'Male', 'b', 'd', NULL, 'ronin:e4e62a3ffdb6963ae2ac3b98355926dbc9043a7a', 12, 32, 0, '2022-01-10', '2022-01-10', 1097, 609, '2022-01-09', '2022-01-23', '101.50');
+(8, 'tes', '2', 'a', '2022-01-15', 'Male', 'a@b.cd', '123', NULL, '0x2ada618bdfa72398721ab0e8fb6620875eb23703', 50, 50, 0, '2022-01-15', '2022-01-15', 1131, 679, '2022-01-10', '2022-01-24', '97.00'),
+(9, 'Tes', '1', 'ABC', '2022-01-15', 'Male', 'tot@markotot.gmail', 'asd', NULL, '0x335a277d86f8731f3bcb46ead044342b6a9532db', 75, 25, 0, '2022-01-15', '2022-01-15', 1003, 744, '2022-01-10', '2022-01-24', '106.29'),
+(10, 'a', '2', 'b', '2022-01-15', 'Male', 's@d.nc', '123', NULL, '0xe4e62a3ffdb6963ae2ac3b98355926dbc9043a7a', 25, 75, 0, '2022-01-15', '2022-01-15', 1156, 885, '2022-01-09', '2022-01-23', '126.43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slp`
+--
+
+CREATE TABLE `slp` (
+  `date` date DEFAULT NULL,
+  `daily` int(11) DEFAULT NULL,
+  `akumulasi` int(11) DEFAULT NULL,
+  `tenant` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `slp`
+--
+
+INSERT INTO `slp` (`date`, `daily`, `akumulasi`, `tenant`) VALUES
+(NULL, NULL, 744, '1'),
+(NULL, NULL, 1564, '2'),
+(NULL, NULL, 744, '1'),
+(NULL, NULL, 1564, '2');
 
 -- --------------------------------------------------------
 
@@ -151,7 +175,7 @@ ALTER TABLE `formscholar`
 -- AUTO_INCREMENT for table `scholar`
 --
 ALTER TABLE `scholar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
