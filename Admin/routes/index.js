@@ -37,7 +37,8 @@ router.delete("/scholar/:id", deleteScholar);
 router.post("/refreshdata", isiData);
 cron.schedule("0 7 * * *", isiData);
 
-import { getDaily } from "../controllers/SLP.js";
-router.get("/daily", getDaily);
-
+import { isiDaily, getDaily, getAllDaily } from "../controllers/SLP.js";
+cron.schedule("5 7 * * *", isiDaily);
+router.get("/daily", getAllDaily);
+router.get("/daily/:tenant", getDaily);
 export default router;

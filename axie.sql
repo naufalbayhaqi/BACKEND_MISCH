@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2022 at 02:24 PM
+-- Generation Time: Jan 16, 2022 at 07:35 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -85,9 +85,9 @@ CREATE TABLE `scholar` (
 --
 
 INSERT INTO `scholar` (`id`, `nama`, `tenant`, `alias`, `tgllahir`, `gender`, `email`, `nowa`, `earningrating`, `addressronin`, `scholarpshare`, `ownerpshare`, `managerpshare`, `createdAt`, `updatedAt`, `mmr`, `ingameslp`, `lastclaim`, `nextclaim`, `average`) VALUES
-(8, 'tes', '2', 'a', '2022-01-15', 'Male', 'a@b.cd', '123', NULL, '0x2ada618bdfa72398721ab0e8fb6620875eb23703', 50, 50, 0, '2022-01-15', '2022-01-15', 1131, 679, '2022-01-10', '2022-01-24', '97.00'),
-(9, 'Tes', '1', 'ABC', '2022-01-15', 'Male', 'tot@markotot.gmail', 'asd', NULL, '0x335a277d86f8731f3bcb46ead044342b6a9532db', 75, 25, 0, '2022-01-15', '2022-01-15', 1003, 744, '2022-01-10', '2022-01-24', '106.29'),
-(10, 'a', '2', 'b', '2022-01-15', 'Male', 's@d.nc', '123', NULL, '0xe4e62a3ffdb6963ae2ac3b98355926dbc9043a7a', 25, 75, 0, '2022-01-15', '2022-01-15', 1156, 885, '2022-01-09', '2022-01-23', '126.43');
+(8, 'tes', 'tes', 'a', '2022-01-15', 'Male', 'a@b.cd', '123', NULL, '0x2ada618bdfa72398721ab0e8fb6620875eb23703', 50, 50, 0, '2022-01-15', '2022-01-15', 1203, 812, '2022-01-10', '2022-01-24', '115.86'),
+(9, 'Tes', 'tes', 'ABC', '2022-01-15', 'Male', 'tot@markotot.gmail', 'asd', NULL, '0x335a277d86f8731f3bcb46ead044342b6a9532db', 75, 25, 0, '2022-01-15', '2022-01-15', 1074, 859, '2022-01-10', '2022-01-24', '122.71'),
+(10, 'a', 'tos', 'b', '2022-01-15', 'Male', 's@d.nc', '123', NULL, '0xe4e62a3ffdb6963ae2ac3b98355926dbc9043a7a', 25, 75, 0, '2022-01-15', '2022-01-15', 1156, 886, '2022-01-09', '2022-01-23', '110.63');
 
 -- --------------------------------------------------------
 
@@ -107,10 +107,12 @@ CREATE TABLE `slp` (
 --
 
 INSERT INTO `slp` (`date`, `daily`, `akumulasi`, `tenant`) VALUES
-(NULL, NULL, 744, '1'),
-(NULL, NULL, 1564, '2'),
-(NULL, NULL, 744, '1'),
-(NULL, NULL, 1564, '2');
+('2022-01-15', 100, 100, 'memek'),
+('2022-01-15', 150, 150, 'kontol'),
+('2022-01-16', 151, 151, 'kontol'),
+('2022-01-16', 150, 150, 'memek'),
+('2022-01-17', 155, 155, 'memek'),
+('2022-01-17', 165, 165, 'kontol');
 
 -- --------------------------------------------------------
 

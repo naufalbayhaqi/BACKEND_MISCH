@@ -4,7 +4,7 @@ import axios from "axios";
 import { con } from "../config/Database.js";
 import { Sequelize } from "sequelize";
 
-export const getDaily = async (req, res) => {
+export const isiDaily = async (req, res) => {
   try {
     const users = await Scholar.findAll({
       attributes: [
@@ -37,5 +37,27 @@ export const getDaily = async (req, res) => {
     });
   } catch (err) {
     res.status(400).send(err);
+  }
+};
+
+export const getDaily = async (req, res) => {
+  try {
+    const slp = await SLP.findAll({
+      where: {
+        tenant: req.params.tenant,
+      },
+    });
+    res.send(slp);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAllDaily = async (req, res) => {
+  try {
+    const slp = await SLP.findAll();
+    res.send(slp);
+  } catch (err) {
+    console.log(err);
   }
 };
