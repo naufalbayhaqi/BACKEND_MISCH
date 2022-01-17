@@ -1,8 +1,7 @@
 import SLP from "../models/SLPModel.js";
 import Scholar from "../models/ScholarModel.js";
-import axios from "axios";
-import { con } from "../config/Database.js";
 import { Sequelize } from "sequelize";
+import { db } from "../config/Database.js";
 
 export const isiDaily = async (req, res) => {
   try {
@@ -30,7 +29,7 @@ export const isiDaily = async (req, res) => {
       order: ["date"],
       raw: true,
     });
-    const t = slp
+    const data = slp
       .slice()
       .reverse()
       .filter(
@@ -39,10 +38,17 @@ export const isiDaily = async (req, res) => {
           i
       )
       .reverse();
-    console.log(t);
-    await SLP.destroy({ truncate: true, cascade: false }).then(() => {
-      SLP.bulkCreate(t);
+
+    db.transaction(async function (t) {
+      return SLP.destroy({
+        truncate: true,
+        cascade: false,
+        transaction: t,
+      }).then(function () {
+        return SLP.bulkCreate(data, { transaction: t });
+      });
     });
+
     res.json({
       message: "KONTOL",
     });
@@ -69,8 +75,8 @@ export const getAllDaily = async (req, res) => {
     const slp = await SLP.findAll({
       attributes: [
         "date",
-        [Sequelize.fn("sum", Sequelize.col("daily")), "total daily"],
-        [Sequelize.fn("sum", Sequelize.col("akumulasi")), "total akumulasi"],
+        [Sequelize.fn("sum", Sequelize.col("daily")), "daily"],
+        [Sequelize.fn("sum", Sequelize.col("akumulasi")), "akumulasi"],
       ],
       group: ["date"],
       raw: true,
