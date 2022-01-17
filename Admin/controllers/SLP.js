@@ -27,12 +27,22 @@ export const isiDaily = async (req, res) => {
           "daily",
         ],
       ],
+      order: ["date"],
       raw: true,
     });
-    console.log(slp);
-    // await SLP.destroy({ truncate: true, cascade: false }).then(() => {
-    //   SLP.bulkCreate(slp);
-    // });
+    const t = slp
+      .slice()
+      .reverse()
+      .filter(
+        (v, i, a) =>
+          a.findIndex((t) => (t.date === v.date) & (t.tenant === v.tenant)) ===
+          i
+      )
+      .reverse();
+    console.log(t);
+    await SLP.destroy({ truncate: true, cascade: false }).then(() => {
+      SLP.bulkCreate(t);
+    });
     res.json({
       message: "KONTOL",
     });
