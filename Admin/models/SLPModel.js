@@ -10,10 +10,10 @@ const SLP = db.define(
       type: DataTypes.DATE,
     },
     daily: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     },
     akumulasi: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     },
     tenant: {
       type: DataTypes.STRING,

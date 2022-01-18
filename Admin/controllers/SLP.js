@@ -60,6 +60,11 @@ export const isiDaily = async (req, res) => {
 export const getDaily = async (req, res) => {
   try {
     const slp = await SLP.findAll({
+      attributes: [
+        "date",
+        [Sequelize.cast(Sequelize.col("daily"), "int"), "daily"],
+        [Sequelize.cast(Sequelize.col("akumulasi"), "int"), "akumulasi"],
+      ],
       where: {
         tenant: req.params.tenant,
       },
@@ -75,8 +80,17 @@ export const getAllDaily = async (req, res) => {
     const slp = await SLP.findAll({
       attributes: [
         "date",
-        [Sequelize.fn("sum", Sequelize.col("daily")), "daily"],
-        [Sequelize.fn("sum", Sequelize.col("akumulasi")), "akumulasi"],
+        [
+          Sequelize.cast(Sequelize.fn("sum", Sequelize.col("daily")), "int"),
+          "daily",
+        ],
+        [
+          Sequelize.cast(
+            Sequelize.fn("sum", Sequelize.col("akumulasi")),
+            "int"
+          ),
+          "akumulasi",
+        ],
       ],
       group: ["date"],
       raw: true,
