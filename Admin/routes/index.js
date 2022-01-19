@@ -31,7 +31,7 @@ import {
 } from "../controllers/Users.js";
 
 router.get("/scholar", getScholar);
-router.get("/scholar/tenant", getScholarByTenant);
+router.post("/scholar/tenant", getScholarByTenant);
 router.post("/scholar", createScholar);
 router.put("/scholar/", updateScholar);
 router.delete("/scholar/", deleteScholar);
