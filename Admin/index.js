@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { db } from "./config/Database.js";
 import Router from "./routes/index.js";
+import bodyParser from "body-parser";
 
 // Init express
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 // use cors
 app.use(cors());
+app.use(bodyParser.json());
 
 // Testing database connection
 try {

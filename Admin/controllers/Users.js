@@ -97,6 +97,7 @@ export const getScholarByTenant = async (req, res) => {
       },
       order: ["alias"],
     });
+    console.log(req.body);
     res.send(users);
   } catch (err) {
     res.status(400).send(err);
