@@ -65,12 +65,13 @@ export const getDaily = async (req, res) => {
         [Sequelize.cast(Sequelize.col("daily"), "int"), "daily"],
         [Sequelize.cast(Sequelize.col("akumulasi"), "int"), "akumulasi"],
       ],
+      raw: true,
       where: {
         tenant: req.body.tenant,
       },
     });
-    var keys = Object.keys(slp);
-    for (var i = 0; i < keys.length; i++) {
+    var test = Object.keys(slp);
+    for (var i = 0; i < test.length; i++) {
       slp[i].date = slp[i].date.slice(8, 10) + "/" + slp[i].date.slice(5, 7);
     }
     res.send(slp);
