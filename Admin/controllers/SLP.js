@@ -66,7 +66,7 @@ export const getDaily = async (req, res) => {
         [Sequelize.cast(Sequelize.col("akumulasi"), "int"), "akumulasi"],
       ],
       where: {
-        tenant: req.params.tenant,
+        tenant: req.body.tenant,
       },
     });
     res.send(slp);

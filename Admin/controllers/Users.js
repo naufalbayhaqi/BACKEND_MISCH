@@ -17,7 +17,7 @@ export const getAdminbyUsername = async (req, res) => {
   try {
     const users = await Admin.findAll({
       where: {
-        username: req.params.username,
+        username: req.body.username,
       },
     });
     return res.send(users[0]);
@@ -48,7 +48,7 @@ export const updateAdmin = async (req, res) => {
   try {
     await Admin.update(req.body, {
       where: {
-        username: req.params.username,
+        username: req.body.username,
       },
     });
     res.json({
@@ -63,7 +63,7 @@ export const deleteAdmin = async (req, res) => {
   try {
     await Admin.destroy({
       where: {
-        username: req.params.username,
+        username: req.body.username,
       },
     });
     res.json({
@@ -93,7 +93,7 @@ export const getScholarByTenant = async (req, res) => {
   try {
     const users = await Scholar.findAll({
       where: {
-        tenant: req.params.tenant,
+        tenant: req.body.tenant,
       },
       order: ["alias"],
     });
@@ -141,7 +141,7 @@ export const updateScholar = async (req, res) => {
   try {
     await Scholar.update(req.body, {
       where: {
-        id: req.params.id,
+        id: req.body.id,
       },
     });
     getSLP(req.body.addressronin);
@@ -157,7 +157,7 @@ export const deleteScholar = async (req, res) => {
   try {
     await Scholar.destroy({
       where: {
-        id: req.params.id,
+        id: req.body.id,
       },
     });
     res.json({
@@ -218,15 +218,20 @@ const getSLP = async (address) => {
     });
 };
 
-export async function isiData() {
-  const user = await Scholar.findAll();
-  var keys = Object.keys(user);
-  for (var i = 0; i < keys.length; i++) {
-    (function () {
-      var j = i;
-      setTimeout(function () {
-        getSLP(user[j].addressronin);
-      }, 1000 * i);
-    })();
+export const isiData = async (req, res) => {
+  try {
+    const user = await Scholar.findAll();
+    var keys = Object.keys(user);
+    for (var i = 0; i < keys.length; i++) {
+      (function () {
+        var j = i;
+        setTimeout(function () {
+          getSLP(user[j].addressronin);
+        }, 1000 * i);
+      })();
+    }
+    res.json({ msg: "berhasil" });
+  } catch (err) {
+    res.status(400).send(err);
   }
-}
+};

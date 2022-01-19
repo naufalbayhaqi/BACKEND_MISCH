@@ -16,10 +16,10 @@ import {
 const router = express.Router();
 
 router.get("/admin", getAdmin);
-router.get("/admin/:username", getAdminbyUsername);
+router.get("/admin/username", getAdminbyUsername);
 router.post("/admin", createAdmin);
-router.put("/admin/:username", updateAdmin);
-router.delete("/admin/:username", deleteAdmin);
+router.put("/admin/", updateAdmin);
+router.delete("/admin/", deleteAdmin);
 
 //// Scholar
 
@@ -31,10 +31,10 @@ import {
 } from "../controllers/Users.js";
 
 router.get("/scholar", getScholar);
-router.get("/scholar/:tenant", getScholarByTenant);
+router.get("/scholar/tenant", getScholarByTenant);
 router.post("/scholar", createScholar);
-router.put("/scholar/:id", updateScholar);
-router.delete("/scholar/:id", deleteScholar);
+router.put("/scholar/", updateScholar);
+router.delete("/scholar/", deleteScholar);
 router.post("/refreshdata", isiData);
 cron.schedule("0 7 * * *", isiData);
 router.get("/tenant", getTenants);
@@ -45,5 +45,5 @@ import { isiDaily, getDaily, getAllDaily } from "../controllers/SLP.js";
 cron.schedule("5 7 * * *", isiDaily);
 router.post("/isidaily", isiDaily);
 router.get("/daily", getAllDaily);
-router.get("/daily/:tenant", getDaily);
+router.get("/daily/tenant", getDaily);
 export default router;
