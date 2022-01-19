@@ -95,6 +95,10 @@ export const getAllDaily = async (req, res) => {
       group: ["date"],
       raw: true,
     });
+    var keys = Object.keys(slp);
+    for (var i = 0; i < keys.length; i++) {
+      slp[i].date = slp[i].date.slice(8, 10) + "/" + slp[i].date.slice(5, 7);
+    }
     res.send(slp);
   } catch (err) {
     res.status(400).send(err);
