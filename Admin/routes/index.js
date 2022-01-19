@@ -9,6 +9,8 @@ import {
   updateAdmin,
   deleteAdmin,
   isiData,
+  getScholarByTenant,
+  getTenants,
 } from "../controllers/Users.js";
 
 const router = express.Router();
@@ -23,19 +25,19 @@ router.delete("/admin/:username", deleteAdmin);
 
 import {
   getScholar,
-  getScholarbyId,
   createScholar,
   updateScholar,
   deleteScholar,
 } from "../controllers/Users.js";
 
 router.get("/scholar", getScholar);
-router.get("/scholar/:id", getScholarbyId);
+router.get("/scholar/:tenant", getScholarByTenant);
 router.post("/scholar", createScholar);
 router.put("/scholar/:id", updateScholar);
 router.delete("/scholar/:id", deleteScholar);
 router.post("/refreshdata", isiData);
 cron.schedule("0 7 * * *", isiData);
+router.get("/tenant", getTenants);
 
 // SLP
 

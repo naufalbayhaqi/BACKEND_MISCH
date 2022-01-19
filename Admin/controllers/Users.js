@@ -2,6 +2,7 @@ import Admin from "../models/AdminModel.js";
 import Scholar from "../models/ScholarModel.js";
 import axios from "axios";
 import { con } from "../config/Database.js";
+import { Sequelize } from "sequelize";
 
 export const getAdmin = async (req, res) => {
   try {
@@ -39,7 +40,7 @@ export const createAdmin = async (req, res) => {
       message: "Admin Created",
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
@@ -54,7 +55,7 @@ export const updateAdmin = async (req, res) => {
       message: "Admin Updated",
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
@@ -69,30 +70,47 @@ export const deleteAdmin = async (req, res) => {
       message: "Admin Deleted",
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
 ////////// SCHOLAR
 export const getScholar = async (req, res) => {
   try {
-    const users = await Scholar.findAll();
+    const users = await Scholar.findAll({
+      order: [
+        ["tenant", "asc"],
+        ["alias", "asc"],
+      ],
+    });
     res.send(users);
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
-export const getScholarbyId = async (req, res) => {
+export const getScholarByTenant = async (req, res) => {
   try {
     const users = await Scholar.findAll({
       where: {
-        id: req.params.id,
+        tenant: req.params.tenant,
       },
+      order: ["alias"],
     });
-    res.send(users[0]);
+    res.send(users);
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
+  }
+};
+
+export const getTenants = async (req, res) => {
+  try {
+    const tenants = await Scholar.findAll({
+      attributes: [[Sequelize.literal("DISTINCT `tenant`"), "tenant"]],
+    });
+    res.send(tenants);
+  } catch (err) {
+    res.status(400).send(err);
   }
 };
 
@@ -115,7 +133,7 @@ export const createScholar = async (req, res) => {
     });
     getSLP(req.body.addressronin);
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
@@ -131,7 +149,7 @@ export const updateScholar = async (req, res) => {
       message: "Scholar Updated",
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
@@ -146,7 +164,7 @@ export const deleteScholar = async (req, res) => {
       message: "Scholar Deleted",
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).send(err);
   }
 };
 
@@ -183,7 +201,7 @@ const getSLP = async (address) => {
           [mmr, ingameslp, average, last_claim, next_claim, addressronin],
           function (err, result) {
             console.log(result);
-            // console.log(err);
+            console.log(err);
           }
         );
       } else {
@@ -191,13 +209,12 @@ const getSLP = async (address) => {
           "UPDATE scholar set mmr=NULL, ingameslp=NULL, average=NULL, lastclaim=NULL, nextclaim=NULL where addressronin=?";
         con.query(sql, [address], function (err, result) {
           console.log(result);
-          // console.log(err);
+          console.log(err);
         });
       }
     })
     .catch(function (error) {
-      // console.log(error);
-      // return res;
+      res.status(400).send(error);
     });
 };
 
