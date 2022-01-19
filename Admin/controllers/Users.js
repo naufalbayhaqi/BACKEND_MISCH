@@ -103,8 +103,12 @@ export const createScholar = async (req, res) => {
         alias: req.body.alias,
       },
     });
-    if (scholarExists)
+    if (scholarExists) {
       return res.status(400).json({ msg: "Alias telah terdaftar" });
+    }
+    if (!req.body.tenant) {
+      req.body.tenant = "Misch";
+    }
     await Scholar.create(req.body);
     res.json({
       message: "Scholar Created",
