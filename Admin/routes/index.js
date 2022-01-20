@@ -10,7 +10,6 @@ import {
   deleteAdmin,
   isiData,
   getScholarByTenant,
-  getTenants,
 } from "../controllers/Users.js";
 
 const router = express.Router();
@@ -37,13 +36,21 @@ router.put("/scholar/", updateScholar);
 router.delete("/scholar/", deleteScholar);
 router.post("/refreshdata", isiData);
 cron.schedule("0 7 * * *", isiData);
-router.get("/tenant", getTenants);
 
 // SLP
 
 import { isiDaily, getDaily, getAllDaily } from "../controllers/SLP.js";
-cron.schedule("5 7 * * *", isiDaily);
 router.post("/isidaily", isiDaily);
 router.get("/daily", getAllDaily);
 router.post("/daily/tenant", getDaily);
+
+// Tenant
+import {
+  createTenant,
+  deleteTenant,
+  getTenants,
+} from "../controllers/Tenant.js";
+router.get("/tenant", getTenants);
+router.post("/tenant", createTenant);
+router.delete("/tenant", deleteTenant);
 export default router;
