@@ -24,5 +24,6 @@ const SLP = db.define(
     timestamps: false,
   }
 );
+
 SLP.removeAttribute("id");
 export default SLP;

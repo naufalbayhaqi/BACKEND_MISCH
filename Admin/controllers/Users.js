@@ -229,3 +229,21 @@ export const isiData = async (req, res) => {
     res.status(400).send(err);
   }
 };
+
+export const join = async (req, res) => {
+  try {
+    const konotl = Scholar.findAll({
+      where: { tenant: nama },
+      include: [
+        {
+          model: Tenant,
+          as: "s",
+          required: false,
+        },
+      ],
+    });
+    console.log(konotl);
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -10,6 +10,7 @@ import {
   deleteAdmin,
   isiData,
   getScholarByTenant,
+  join,
 } from "../controllers/Users.js";
 
 const router = express.Router();
@@ -53,4 +54,6 @@ import {
 router.get("/tenant", getTenants);
 router.post("/tenant", createTenant);
 router.delete("/tenant", deleteTenant);
+router.get("/join", join);
+
 export default router;

@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import { db } from "../config/Database.js";
+import Tenant from "./TenantModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -66,5 +67,8 @@ const Scholar = db.define(
     freezeTableName: true,
   }
 );
+
+Scholar.belongsTo(Tenant, { as: "s" });
+Tenant.hasMany(Scholar, { foreignKey: "nama", as: "t" });
 
 export default Scholar;
