@@ -109,23 +109,12 @@ export const getScholarByTenant = async (req, res) => {
 
 export const createScholar = async (req, res) => {
   try {
-    const scholarExists = await Scholar.findOne({
-      where: {
-        alias: req.body.alias,
-      },
+    await Scholar.create(req.body);
+    res.json({
+      message: "Scholar Created",
     });
-    if (!req.body.tenant) {
-      res.status(400).json({ msg: "HARUS ADA TENANT" });
-    }
-    if (scholarExists) {
-      return res.status(400).json({ msg: "Alias telah terdaftar" });
-    } else {
-      await Scholar.create(req.body);
-      res.json({
-        message: "Scholar Created",
-      });
-      getSLP(req.body.addressronin);
-    }
+    getSLP(req.body.addressronin);
+    // }
   } catch (err) {
     res.status(400).send(err);
   }
