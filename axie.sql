@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2022 at 07:45 PM
+-- Generation Time: Jan 21, 2022 at 12:25 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -60,8 +60,8 @@ CREATE TABLE `formscholar` (
 CREATE TABLE `scholar` (
   `id` int(11) NOT NULL,
   `nama` varchar(255) DEFAULT NULL,
-  `tenant` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
+  `tenantId` int(11) NOT NULL,
   `tgllahir` date DEFAULT NULL,
   `gender` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -84,10 +84,8 @@ CREATE TABLE `scholar` (
 -- Dumping data for table `scholar`
 --
 
-INSERT INTO `scholar` (`id`, `nama`, `tenant`, `alias`, `tgllahir`, `gender`, `email`, `nowa`, `earningrating`, `addressronin`, `scholarpshare`, `ownerpshare`, `managerpshare`, `createdAt`, `updatedAt`, `mmr`, `ingameslp`, `lastclaim`, `nextclaim`, `average`) VALUES
-(8, 'tes', 'tes', 'a', '2022-01-15', 'Male', 'a@b.cd', '123', NULL, '0x2ada618bdfa72398721ab0e8fb6620875eb23703', 50, 50, 0, '2022-01-15', '2022-01-15', 1203, 812, '2022-01-10', '2022-01-24', '115.86'),
-(9, 'Tes', 'tes', 'ABC', '2022-01-15', 'Male', 'tot@markotot.gmail', 'asd', NULL, '0x335a277d86f8731f3bcb46ead044342b6a9532db', 75, 25, 0, '2022-01-15', '2022-01-15', 1074, 859, '2022-01-10', '2022-01-24', '122.71'),
-(10, 'a', 'tos', 'b', '2022-01-15', 'Male', 's@d.nc', '123', NULL, '0xe4e62a3ffdb6963ae2ac3b98355926dbc9043a7a', 25, 75, 0, '2022-01-15', '2022-01-15', 1156, 886, '2022-01-09', '2022-01-23', '110.63');
+INSERT INTO `scholar` (`id`, `nama`, `alias`, `tenantId`, `tgllahir`, `gender`, `email`, `nowa`, `earningrating`, `addressronin`, `scholarpshare`, `ownerpshare`, `managerpshare`, `createdAt`, `updatedAt`, `mmr`, `ingameslp`, `lastclaim`, `nextclaim`, `average`) VALUES
+(7, '[value-2]', '[value-3]', 4, '0000-00-00', '[value-6]', '[value-7]', '[value-8]', 'high', 'ronin:2ada618bdfa72398721ab0e8fb6620875eb23703', 0, 0, 0, '0000-00-00', '2022-01-21', 1119, 1318, '2022-01-10', '2022-01-24', '109.83');
 
 -- --------------------------------------------------------
 
@@ -96,23 +94,40 @@ INSERT INTO `scholar` (`id`, `nama`, `tenant`, `alias`, `tgllahir`, `gender`, `e
 --
 
 CREATE TABLE `slp` (
+  `id` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `daily` int(11) DEFAULT NULL,
   `akumulasi` int(11) DEFAULT NULL,
-  `tenant` varchar(255) DEFAULT NULL
+  `tenantId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `slp`
 --
 
-INSERT INTO `slp` (`date`, `daily`, `akumulasi`, `tenant`) VALUES
-('2022-01-15', 100, 100, 'memek'),
-('2022-01-15', 150, 150, 'kontol'),
-('2022-01-16', 151, 301, 'kontol'),
-('2022-01-16', 150, 250, 'memek'),
-('2022-01-17', 155, 405, 'memek'),
-('2022-01-17', 165, 466, 'kontol');
+INSERT INTO `slp` (`id`, `date`, `daily`, `akumulasi`, `tenantId`) VALUES
+(1, '2022-01-21', 1318, 1318, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tenant`
+--
+
+CREATE TABLE `tenant` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `low` int(255) NOT NULL,
+  `med` int(255) NOT NULL,
+  `high` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tenant`
+--
+
+INSERT INTO `tenant` (`id`, `nama`, `low`, `med`, `high`) VALUES
+(4, 'a', 25, 50, 100);
 
 -- --------------------------------------------------------
 
@@ -148,6 +163,20 @@ ALTER TABLE `formscholar`
 -- Indexes for table `scholar`
 --
 ALTER TABLE `scholar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `scholar_ibfk_1` (`tenantId`);
+
+--
+-- Indexes for table `slp`
+--
+ALTER TABLE `slp`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slp_ibfk_1` (`tenantId`);
+
+--
+-- Indexes for table `tenant`
+--
+ALTER TABLE `tenant`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -177,13 +206,41 @@ ALTER TABLE `formscholar`
 -- AUTO_INCREMENT for table `scholar`
 --
 ALTER TABLE `scholar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `slp`
+--
+ALTER TABLE `slp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tenant`
+--
+ALTER TABLE `tenant`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `scholar`
+--
+ALTER TABLE `scholar`
+  ADD CONSTRAINT `scholar_ibfk_1` FOREIGN KEY (`tenantId`) REFERENCES `tenant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `slp`
+--
+ALTER TABLE `slp`
+  ADD CONSTRAINT `slp_ibfk_1` FOREIGN KEY (`tenantId`) REFERENCES `tenant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
