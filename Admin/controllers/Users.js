@@ -198,6 +198,18 @@ const getSLP = async (address) => {
             )
           ).toFixed(2)
         );
+        await Scholar.update(
+          {
+            mmr: mmr,
+            ingameslp: ingameslp,
+            average: average,
+            lastclaim: last_claim,
+            nextclaim: next_claim,
+          },
+          {
+            where: { addressronin: address },
+          }
+        );
         const tes = await Scholar.findOne({
           where: {
             addressronin: address,
@@ -224,11 +236,6 @@ const getSLP = async (address) => {
         }
         await Scholar.update(
           {
-            mmr: mmr,
-            ingameslp: ingameslp,
-            average: average,
-            lastclaim: last_claim,
-            nextclaim: next_claim,
             earningrating: rate,
           },
           {
