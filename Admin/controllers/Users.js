@@ -180,14 +180,13 @@ const getSLP = async (address) => {
         "Content-Type": "application/json",
       },
     })
-    .then(function (response) {
+    .then(async function (response) {
       if (response.data.mmr) {
         var mmr = JSON.stringify(response.data.mmr);
         var ingameslp = parseInt(response.data.in_game_slp);
         var last_claim = new Date(response.data.last_claim * 1000)
           .toISOString()
           .slice(0, 10);
-        var addressronin = address;
         var next_claim = new Date(response.data.next_claim * 1000)
           .toISOString()
           .slice(0, 10);
@@ -199,27 +198,61 @@ const getSLP = async (address) => {
             )
           ).toFixed(2)
         );
-        var sql =
-          "UPDATE scholar set mmr=?, ingameslp=?, average=?, lastclaim=?, nextclaim=? where addressronin=?";
-        con.query(
-          sql,
-          [mmr, ingameslp, average, last_claim, next_claim, addressronin],
-          function (err, result) {
-            console.log(result);
-            console.log(err);
+        const tes = await Scholar.findOne({
+          where: {
+            addressronin: address,
+          },
+          include: {
+            model: Tenant,
+            attributes: [],
+          },
+          attributes: [
+            "average",
+            [Sequelize.literal("tenant.low"), "low"],
+            [Sequelize.literal("tenant.med"), "med"],
+            [Sequelize.literal("tenant.high"), "high"],
+          ],
+          raw: true,
+        });
+        var rate = "zero";
+        if ((tes.low < tes.average) & (tes.average <= tes.med)) {
+          rate = "low";
+        } else if ((tes.med < tes.average) & (tes.average <= tes.high)) {
+          rate = "medium";
+        } else if (tes.average >= tes.high) {
+          rate = "high";
+        }
+        await Scholar.update(
+          {
+            mmr: mmr,
+            ingameslp: ingameslp,
+            average: average,
+            lastclaim: last_claim,
+            nextclaim: next_claim,
+            earningrating: rate,
+          },
+          {
+            where: { addressronin: address },
           }
         );
       } else {
-        var sql =
-          "UPDATE scholar set mmr=NULL, ingameslp=NULL, average=NULL, lastclaim=NULL, nextclaim=NULL where addressronin=?";
-        con.query(sql, [address], function (err, result) {
-          console.log(result);
-          console.log(err);
-        });
+        await Scholar.update(
+          {
+            mmr: null,
+            ingameslp: null,
+            average: null,
+            lastclaim: null,
+            nextclaim: null,
+            earningrating: null,
+          },
+          {
+            where: { addressronin: address },
+          }
+        );
       }
     })
     .catch(function (error) {
-      res.status(400).send(error);
+      console.log(error);
     });
 };
 
@@ -235,7 +268,9 @@ export const isiData = async (req, res) => {
         }, 1000 * i);
       })();
     }
-    res.json({ msg: "berhasil" });
+    setTimeout(function () {
+      res.json({ msg: "berhasil" });
+    }, 1000 * (keys.length + 1));
   } catch (err) {
     res.status(400).send(err);
   }
