@@ -7,14 +7,8 @@ import SLP from "../models/SLPModel.js";
 export const getTenants = async (req, res) => {
   try {
     const tenants = await Tenant.findAll({
-      include: [
-        {
-          model: Scholar,
-          group: ["tenantId"],
-        },
-      ],
       order: [["id", "asc"]],
-      // raw: true,
+      raw: true,
     });
     res.send(tenants);
   } catch (err) {
