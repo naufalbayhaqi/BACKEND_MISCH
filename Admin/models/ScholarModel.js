@@ -9,18 +9,19 @@ const Scholar = db.define(
   {
     id: {
       type: DataTypes.STRING,
+      autoIncrement: true,
       primaryKey: true,
     },
     nama: {
       type: DataTypes.STRING,
     },
-    tenant: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: { msg: "Tenant tidak boleh NULL!" },
-      },
-    },
+    // tenant: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   validate: {
+    //     notNull: { msg: "Tenant tidak boleh NULL!" },
+    //   },
+    // },
     alias: {
       type: DataTypes.STRING,
       unique: true,
@@ -80,13 +81,19 @@ const Scholar = db.define(
     average: {
       type: DataTypes.NUMBER,
     },
+    tenantId: {
+      // foreign key tenant
+      type: DataTypes.INTEGER,
+      required: true,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
   }
 );
 
-Scholar.belongsTo(Tenant, { as: "s" });
-Tenant.hasMany(Scholar, { foreignKey: "nama", as: "t" });
+Scholar.belongsTo(Tenant);
+Tenant.hasMany(Scholar);
 
 export default Scholar;

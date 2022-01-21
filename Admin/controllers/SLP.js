@@ -1,16 +1,18 @@
 import SLP from "../models/SLPModel.js";
 import Scholar from "../models/ScholarModel.js";
 import { Sequelize } from "sequelize";
+import Tenant from "../models/TenantModel.js";
 import { db } from "../config/Database.js";
 
 export const isiDaily = async (req, res) => {
   try {
     const users = await Scholar.findAll({
+      include: [{ model: Tenant, attributes: [], order: [["id", "asc"]] }],
       attributes: [
-        "tenant",
         [Sequelize.fn("sum", Sequelize.col("ingameslp")), "akumulasi"],
+        [Sequelize.literal("tenant.id"), "tenantId"],
       ],
-      group: ["tenant"],
+      group: ["tenant.id"],
       raw: true,
     });
     const date = new Date().toJSON().slice(0, 10);
@@ -21,7 +23,7 @@ export const isiDaily = async (req, res) => {
         "*",
         [
           Sequelize.literal(
-            `COALESCE(akumulasi - (SELECT akumulasi FROM slp slp2 where slp2.date < slp.date AND slp2.tenant = slp.tenant order by slp2.date DESC limit 1 ),slp.akumulasi )`
+            `COALESCE(akumulasi - (SELECT akumulasi FROM slp slp2 where slp2.date < slp.date AND slp2.tenantId = slp.tenantId order by slp2.date DESC limit 1 ),slp.akumulasi )`
           ),
           "daily",
         ],
@@ -34,8 +36,9 @@ export const isiDaily = async (req, res) => {
       .reverse()
       .filter(
         (v, i, a) =>
-          a.findIndex((t) => (t.date === v.date) & (t.tenant === v.tenant)) ===
-          i
+          a.findIndex(
+            (t) => (t.date === v.date) & (t.tenantId === v.tenantId)
+          ) === i
       )
       .reverse();
 
@@ -53,6 +56,7 @@ export const isiDaily = async (req, res) => {
       message: "KONTOL",
     });
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 };
@@ -60,15 +64,23 @@ export const isiDaily = async (req, res) => {
 export const getDaily = async (req, res) => {
   try {
     const slp = await SLP.findAll({
+      include: [
+        {
+          model: Tenant,
+          attributes: [],
+          where: {
+            nama: req.body.tenant,
+          },
+          order: [["id"], "asc"],
+        },
+      ],
       attributes: [
         "date",
         [Sequelize.cast(Sequelize.col("daily"), "int"), "daily"],
         [Sequelize.cast(Sequelize.col("akumulasi"), "int"), "akumulasi"],
+        // [Sequelize.literal("tenant.nama"), "tenant"],
       ],
       raw: true,
-      where: {
-        tenant: req.body.tenant,
-      },
     });
     var test = Object.keys(slp);
     for (var i = 0; i < test.length; i++) {

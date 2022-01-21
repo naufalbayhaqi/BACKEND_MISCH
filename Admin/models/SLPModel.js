@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import { db } from "../config/Database.js";
+import Tenant from "./TenantModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -15,8 +16,8 @@ const SLP = db.define(
     akumulasi: {
       type: DataTypes.INTEGER,
     },
-    tenant: {
-      type: DataTypes.STRING,
+    tenantId: {
+      type: DataTypes.INTEGER,
     },
   },
   {
@@ -26,4 +27,8 @@ const SLP = db.define(
 );
 
 SLP.removeAttribute("id");
+
+SLP.belongsTo(Tenant);
+Tenant.hasMany(SLP);
+
 export default SLP;

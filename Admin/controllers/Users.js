@@ -81,10 +81,20 @@ export const deleteAdmin = async (req, res) => {
 export const getScholar = async (req, res) => {
   try {
     const users = await Scholar.findAll({
-      order: [
-        ["tenant", "asc"],
-        ["alias", "asc"],
+      include: [
+        {
+          model: Tenant,
+          attributes: [],
+          required: false,
+          order: ["nama", "asc"],
+        },
       ],
+      attributes: {
+        exclude: ["tenantId"],
+        include: [[Sequelize.literal("tenant.nama"), "tenant"]],
+      },
+      order: [["alias", "asc"]],
+      raw: true,
     });
     res.send(users);
   } catch (err) {
@@ -95,13 +105,25 @@ export const getScholar = async (req, res) => {
 export const getScholarByTenant = async (req, res) => {
   try {
     const users = await Scholar.findAll({
-      where: {
-        tenant: req.body.tenant,
+      attributes: {
+        include: [[Sequelize.literal("tenant.nama"), "tenant"]],
+        exclude: ["tenantId"],
       },
+      include: [
+        {
+          model: Tenant,
+          where: {
+            nama: req.body.tenant,
+          },
+          attributes: [],
+          required: false,
+        },
+      ],
       order: ["alias"],
+      raw: true,
     });
-    console.log(req.body);
     res.send(users);
+    console.log(users);
   } catch (err) {
     res.status(400).send(err);
   }
@@ -216,23 +238,5 @@ export const isiData = async (req, res) => {
     res.json({ msg: "berhasil" });
   } catch (err) {
     res.status(400).send(err);
-  }
-};
-
-export const join = async (req, res) => {
-  try {
-    const konotl = Scholar.findAll({
-      where: { tenant: nama },
-      include: [
-        {
-          model: Tenant,
-          as: "s",
-          required: false,
-        },
-      ],
-    });
-    console.log(konotl);
-  } catch (err) {
-    console.log(err);
   }
 };
