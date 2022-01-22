@@ -90,7 +90,7 @@ export const getScholar = async (req, res) => {
         },
       ],
       attributes: {
-        exclude: ["tenantId"],
+        // exclude: ["tenantId"],
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
       },
       order: [["alias", "asc"]],
@@ -107,7 +107,7 @@ export const getScholarByTenant = async (req, res) => {
     const users = await Scholar.findAll({
       attributes: {
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
-        exclude: ["tenantId"],
+        // exclude: ["tenantId"],
       },
       include: [
         {
@@ -155,7 +155,7 @@ export const updateScholar = async (req, res) => {
   try {
     await Scholar.update(req.body, {
       where: {
-        id: req.params.id,
+        id: req.body.id,
       },
     });
     getSLP(req.body.addressronin);
@@ -163,6 +163,7 @@ export const updateScholar = async (req, res) => {
       message: "Scholar Updated",
     });
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 };

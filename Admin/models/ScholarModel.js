@@ -17,7 +17,6 @@ const Scholar = db.define(
     },
     alias: {
       type: DataTypes.STRING,
-      unique: true,
     },
     tgllahir: {
       type: DataTypes.DATE,
@@ -64,8 +63,8 @@ const Scholar = db.define(
     tenantId: {
       // foreign key tenant
       type: DataTypes.INTEGER,
-      required: true,
-      allowNull: false,
+      // required: true,
+      // allowNull: false,
     },
   },
   {
