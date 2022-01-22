@@ -155,11 +155,6 @@ export const updateScholar = async (req, res) => {
   try {
     await Scholar.update(req.body, {
       where: {
-        id: req.body.id,
-      },
-    });
-    await Scholar.update(req.body, {
-      where: {
         id: req.params.id,
       },
     });
