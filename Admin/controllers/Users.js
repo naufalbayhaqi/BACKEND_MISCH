@@ -90,7 +90,7 @@ export const getScholar = async (req, res) => {
         },
       ],
       attributes: {
-        exclude: ["tenantId"],
+        // exclude: ["tenantId"],
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
       },
       order: [["alias", "asc"]],
@@ -116,7 +116,7 @@ export const getScholarByTenant = async (req, res) => {
             nama: req.body.tenant,
           },
           attributes: [],
-          required: false,
+          // required: false,
         },
       ],
       order: ["alias"],
