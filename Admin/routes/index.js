@@ -41,6 +41,7 @@ cron.schedule("0 7 * * *", isiData);
 
 import { isiDaily, getDaily, getAllDaily } from "../controllers/SLP.js";
 router.post("/daily", isiDaily);
+cron.schedule("* * * * *", isiDaily);
 router.get("/daily", getAllDaily);
 router.post("/daily/tenant", getDaily);
 
