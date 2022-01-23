@@ -107,7 +107,6 @@ export const getScholarByTenant = async (req, res) => {
     const users = await Scholar.findAll({
       attributes: {
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
-        exclude: ["tenantId"],
       },
       include: [
         {
@@ -116,7 +115,6 @@ export const getScholarByTenant = async (req, res) => {
             nama: req.body.tenant,
           },
           attributes: [],
-          required: false,
         },
       ],
       order: ["alias"],
