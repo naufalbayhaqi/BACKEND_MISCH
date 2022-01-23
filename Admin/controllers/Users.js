@@ -153,6 +153,14 @@ export const createScholar = async (req, res) => {
 
 export const updateScholar = async (req, res) => {
   try {
+    const scholarExists = await Scholar.findOne({
+      where: {
+        alias: req.body.alias,
+      },
+    });
+    if (scholarExists) {
+      return res.status(400).json({ msg: "Alias telah terdaftar" });
+    }
     await Scholar.update(req.body, {
       where: {
         id: req.body.id,
