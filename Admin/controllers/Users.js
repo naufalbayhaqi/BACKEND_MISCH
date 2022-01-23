@@ -90,7 +90,7 @@ export const getScholar = async (req, res) => {
         },
       ],
       attributes: {
-        // exclude: ["tenantId"],
+        exclude: ["tenantId"],
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
       },
       order: [["alias", "asc"]],
@@ -107,7 +107,7 @@ export const getScholarByTenant = async (req, res) => {
     const users = await Scholar.findAll({
       attributes: {
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
-        // exclude: ["tenantId"],
+        exclude: ["tenantId"],
       },
       include: [
         {
@@ -116,7 +116,7 @@ export const getScholarByTenant = async (req, res) => {
             nama: req.body.tenant,
           },
           attributes: [],
-          // required: false,
+          required: false,
         },
       ],
       order: ["alias"],
@@ -131,21 +131,12 @@ export const getScholarByTenant = async (req, res) => {
 
 export const createScholar = async (req, res) => {
   try {
-    const scholarExists = await Scholar.findOne({
-      where: {
-        alias: req.body.alias,
-      },
-    });
-    if (req.body.addressronin.slice(0, 2) !== "0x") {
-      req.body.addressronin = "0x".concat(req.body.addressronin.slice(6));
-    }
-    if (scholarExists)
-      return res.status(400).json({ msg: "Alias telah terdaftar" });
-    await Scholar.create(req.body);
+    await Scholar.create(req.body, {});
     res.json({
       message: "Scholar Created",
     });
     getSLP(req.body.addressronin);
+    // }
   } catch (err) {
     res.status(400).send(err);
   }
@@ -153,14 +144,6 @@ export const createScholar = async (req, res) => {
 
 export const updateScholar = async (req, res) => {
   try {
-    const scholarExists = await Scholar.findOne({
-      where: {
-        alias: req.body.alias,
-      },
-    });
-    if (scholarExists) {
-      return res.status(400).json({ msg: "Alias telah terdaftar" });
-    }
     await Scholar.update(req.body, {
       where: {
         id: req.body.id,
@@ -171,7 +154,6 @@ export const updateScholar = async (req, res) => {
       message: "Scholar Updated",
     });
   } catch (err) {
-    console.log(err);
     res.status(400).send(err);
   }
 };

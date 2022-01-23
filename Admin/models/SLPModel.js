@@ -7,6 +7,11 @@ const { DataTypes } = Sequelize;
 const SLP = db.define(
   "slp",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      unique: true,
+    },
     date: {
       type: DataTypes.DATE,
     },
@@ -25,8 +30,6 @@ const SLP = db.define(
     timestamps: false,
   }
 );
-
-SLP.removeAttribute("id");
 
 SLP.belongsTo(Tenant);
 Tenant.hasMany(SLP);

@@ -17,6 +17,20 @@ const Scholar = db.define(
     },
     alias: {
       type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isUnique: (value, next) => {
+          Scholar.findAll({
+            where: { alias: value },
+            attributes: ["id"],
+          })
+            .then((user) => {
+              if (user.length != 0) next(new Error("Alias sudah ada!"));
+              next();
+            })
+            .catch((onError) => console.log(onError));
+        },
+      },
     },
     tgllahir: {
       type: DataTypes.DATE,
