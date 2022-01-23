@@ -116,7 +116,7 @@ export const getScholarByTenant = async (req, res) => {
             nama: req.body.tenant,
           },
           attributes: [],
-          required: false,
+          // required: false,
         },
       ],
       order: ["alias"],
