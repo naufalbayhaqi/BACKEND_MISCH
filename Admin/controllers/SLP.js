@@ -67,75 +67,12 @@ export const getDaily = async (req, res) => {
       include: [
         {
           model: Tenant,
-          attributes: ["id"],
-          where: {
-            nama: req.body.tenant,
-          },
-          order: [["id"], "asc"],
-          include: [
-            {
-              model: Scholar,
-              required: false,
-              attributes: [],
-            },
-          ],
-        },
-      ],
-      attributes: [
-        "date",
-        [
-          Sequelize.cast(
-            Sequelize.fn("sum", Sequelize.col("tenant.scholars.average")),
-            "int"
-          ),
-          "average",
-        ],
-        [Sequelize.cast(Sequelize.col("daily"), "int"), "daily"],
-        [Sequelize.cast(Sequelize.col("akumulasi"), "int"), "akumulasi"],
-        [Sequelize.literal("tenant.nama"), "tenant"],
-      ],
-      raw: true,
-      nest: true,
-    });
-    if (slp.average != null) {
-      var test = Object.keys(slp);
-      for (var i = 0; i < test.length; i++) {
-        slp[i].date = slp[i].date.slice(8, 10) + "/" + slp[i].date.slice(5, 7);
-      }
-      res.send(slp);
-    } else {
-      res.send(slp);
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
-  }
-};
-
-export const getAllDaily = async (req, res) => {
-  try {
-    const slp = await SLP.findAll({
-      include: [
-        {
-          model: Tenant,
           attributes: [],
-          include: [
-            {
-              model: Scholar,
-              attributes: [],
-            },
-          ],
+          where: req.body.tenant ? { nama: req.body.tenant } : {},
         },
       ],
       attributes: [
         "date",
-        [
-          Sequelize.cast(
-            Sequelize.fn("sum", Sequelize.col("tenant.scholars.average")),
-            "int"
-          ),
-          "average",
-        ],
         [
           Sequelize.cast(Sequelize.fn("sum", Sequelize.col("daily")), "int"),
           "daily",
@@ -151,13 +88,62 @@ export const getAllDaily = async (req, res) => {
       group: ["date"],
       raw: true,
     });
-    var keys = Object.keys(slp);
-    for (var i = 0; i < keys.length; i++) {
+    var test = Object.keys(slp);
+    for (var i = 0; i < test.length; i++) {
       slp[i].date = slp[i].date.slice(8, 10) + "/" + slp[i].date.slice(5, 7);
     }
     res.send(slp);
   } catch (err) {
-    console.log(err);
     res.status(400).send(err);
   }
 };
+
+// export const getAllDaily = async (req, res) => {
+//   try {
+//     const slp = await SLP.findAll({
+//       include: [
+//         {
+//           model: Tenant,
+//           attributes: [],
+//           include: [
+//             {
+//               model: Scholar,
+//               attributes: [],
+//             },
+//           ],
+//         },
+//       ],
+//       attributes: [
+//         "date",
+//         [
+//           Sequelize.cast(
+//             Sequelize.fn("sum", Sequelize.col("tenant.scholars.average")),
+//             "int"
+//           ),
+//           "average",
+//         ],
+//         [
+//           Sequelize.cast(Sequelize.fn("sum", Sequelize.col("daily")), "int"),
+//           "daily",
+//         ],
+//         [
+//           Sequelize.cast(
+//             Sequelize.fn("sum", Sequelize.col("akumulasi")),
+//             "int"
+//           ),
+//           "akumulasi",
+//         ],
+//       ],
+//       group: ["date"],
+//       raw: true,
+//     });
+//     var keys = Object.keys(slp);
+//     for (var i = 0; i < keys.length; i++) {
+//       slp[i].date = slp[i].date.slice(8, 10) + "/" + slp[i].date.slice(5, 7);
+//     }
+//     res.send(slp);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).send(err);
+//   }
+// };

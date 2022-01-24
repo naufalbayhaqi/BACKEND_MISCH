@@ -91,8 +91,14 @@ export const getScholar = async (req, res) => {
         {
           model: Tenant,
           attributes: [],
-          required: false,
-          order: ["nama", "asc"],
+          where: {
+            [Op.and]: [
+              req.body.tenant && {
+                nama: req.body.tenant,
+              },
+            ],
+          },
+          // order: ["nama", "asc"],
         },
       ],
       attributes: {
@@ -107,35 +113,35 @@ export const getScholar = async (req, res) => {
   }
 };
 
-export const getScholarByTenant = async (req, res) => {
-  try {
-    const users = await Scholar.findAll({
-      where: {
-        [Op.and]: [
-          req.body.earningrating && { earningrating: req.body.earningrating },
-        ],
-      },
-      attributes: {
-        include: [[Sequelize.literal("tenant.nama"), "tenant"]],
-      },
-      include: [
-        {
-          model: Tenant,
-          where: {
-            nama: req.body.tenant,
-          },
-          attributes: [],
-        },
-      ],
-      order: [["alias"], ["average"]],
-      raw: true,
-    });
-    res.send(users);
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
-  }
-};
+// export const getScholarByTenant = async (req, res) => {
+//   try {
+//     const users = await Scholar.findAll({
+//       where: {
+//         [Op.and]: [
+//           req.body.earningrating && { earningrating: req.body.earningrating },
+//         ],
+//       },
+//       attributes: {
+//         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
+//       },
+//       include: [
+//         {
+//           model: Tenant,
+//           where: {
+//             nama: req.body.tenant,
+//           },
+//           attributes: [],
+//         },
+//       ],
+//       order: [["alias"], ["average"]],
+//       raw: true,
+//     });
+//     res.send(users);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).send(err);
+//   }
+// };
 
 export const createScholar = async (req, res) => {
   try {
