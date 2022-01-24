@@ -82,6 +82,11 @@ export const deleteAdmin = async (req, res) => {
 export const getScholar = async (req, res) => {
   try {
     const users = await Scholar.findAll({
+      where: {
+        [Op.and]: [
+          req.body.earningrating && { earningrating: req.body.earningrating },
+        ],
+      },
       include: [
         {
           model: Tenant,
