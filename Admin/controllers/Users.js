@@ -4,6 +4,7 @@ import axios from "axios";
 import { con } from "../config/Database.js";
 import { Sequelize } from "sequelize";
 import Tenant from "../models/TenantModel.js";
+import { Op } from "sequelize";
 
 export const getAdmin = async (req, res) => {
   try {
@@ -90,7 +91,6 @@ export const getScholar = async (req, res) => {
         },
       ],
       attributes: {
-        exclude: ["tenantId"],
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
       },
       order: [["alias", "asc"]],
@@ -105,6 +105,11 @@ export const getScholar = async (req, res) => {
 export const getScholarByTenant = async (req, res) => {
   try {
     const users = await Scholar.findAll({
+      where: {
+        [Op.and]: [
+          req.body.earningrating && { earningrating: req.body.earningrating },
+        ],
+      },
       attributes: {
         include: [[Sequelize.literal("tenant.nama"), "tenant"]],
       },
@@ -117,12 +122,12 @@ export const getScholarByTenant = async (req, res) => {
           attributes: [],
         },
       ],
-      order: ["alias"],
+      order: [["alias"], ["average"]],
       raw: true,
     });
     res.send(users);
-    console.log(users);
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 };
