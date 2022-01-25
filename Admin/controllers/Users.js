@@ -242,11 +242,11 @@ const getSLP = async (address) => {
         });
         var rate = "zero";
         if ((tes.low < tes.average) & (tes.average <= tes.med)) {
-          rate = "low";
+          rate = "Low";
         } else if ((tes.med < tes.average) & (tes.average <= tes.high)) {
-          rate = "medium";
+          rate = "Medium";
         } else if (tes.average >= tes.high) {
-          rate = "high";
+          rate = "High";
         }
         await Scholar.update(
           {
