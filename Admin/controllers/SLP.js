@@ -113,7 +113,7 @@ export const average = async (req, res) => {
         model: Scholar,
         attributes: [],
         order: ["nextclaim", "asc"],
-        limit: 1,
+        // limit: 1,
       },
       attributes: [
         [
