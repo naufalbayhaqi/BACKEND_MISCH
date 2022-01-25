@@ -3,12 +3,12 @@ import express from "express";
 import cron from "node-cron";
 // Import Controller Product
 import {
-  getAdmin,
-  getAdminbyUsername,
-  createAdmin,
-  updateAdmin,
-  deleteAdmin,
-  isiData,
+	getAdmin,
+	getAdminbyUsername,
+	createAdmin,
+	updateAdmin,
+	deleteAdmin,
+	isiData,
 } from "../controllers/Users.js";
 
 const router = express.Router();
@@ -22,10 +22,10 @@ router.delete("/admin/", deleteAdmin);
 //// Scholar
 
 import {
-  getScholar,
-  createScholar,
-  updateScholar,
-  deleteScholar,
+	getScholar,
+	createScholar,
+	updateScholar,
+	deleteScholar,
 } from "../controllers/Users.js";
 
 router.post("/scholar/list", getScholar);
@@ -38,19 +38,20 @@ cron.schedule("0 7 * * *", isiData);
 
 // SLP
 
-import { isiDaily, getDaily } from "../controllers/SLP.js";
+import { isiDaily, getDaily, average } from "../controllers/SLP.js";
 router.post("/daily", isiDaily);
 // cron.schedule("* * * * *", isiDaily);
 router.post("/daily/list", getDaily);
 
 // Tenant
 import {
-  createTenant,
-  deleteTenant,
-  getTenants,
+	createTenant,
+	deleteTenant,
+	getTenants,
 } from "../controllers/Tenant.js";
 router.get("/tenant", getTenants);
 router.post("/tenant", createTenant);
+router.post("/average", average);
 router.delete("/tenant", deleteTenant);
 
 export default router;
