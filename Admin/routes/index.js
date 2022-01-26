@@ -48,10 +48,11 @@ import {
   createTenant,
   deleteTenant,
   getTenants,
+  updateTenant,
 } from "../controllers/Tenant.js";
 router.get("/tenant", getTenants);
 router.post("/tenant", createTenant);
 router.post("/average", average);
 router.delete("/tenant", deleteTenant);
-
+router.put("/tenant", updateTenant);
 export default router;
