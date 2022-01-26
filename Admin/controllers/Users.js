@@ -232,7 +232,9 @@ const getSLP = async (address) => {
           raw: true,
         });
         var rate = "zero";
-        if ((tes.low < tes.average) & (tes.average <= tes.med)) {
+        if (tes.average == 0) {
+          rate = "zero";
+        } else if ((tes.low < tes.average) & (tes.average <= tes.med)) {
           rate = "Low";
         } else if ((tes.med < tes.average) & (tes.average <= tes.high)) {
           rate = "Medium";

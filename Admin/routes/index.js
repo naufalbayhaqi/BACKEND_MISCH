@@ -14,7 +14,7 @@ import {
 const router = express.Router();
 
 router.get("/admin", getAdmin);
-router.get("/admin/username", getAdminbyUsername);
+// router.get("/admin/username", getAdminbyUsername);
 router.post("/admin", createAdmin);
 router.put("/admin/", updateAdmin);
 router.delete("/admin/", deleteAdmin);
