@@ -8,21 +8,12 @@ import { Op } from "sequelize";
 
 export const getAdmin = async (req, res) => {
   try {
-    const users = await Admin.findAll();
-    res.send(users);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-};
-
-export const getAdminbyUsername = async (req, res) => {
-  try {
     const users = await Admin.findAll({
       where: {
-        username: req.body.username,
+        [Op.and]: [req.body.username && { username: req.body.username }],
       },
     });
-    return res.send(users[0]);
+    res.send(users);
   } catch (err) {
     res.status(400).send(err);
   }

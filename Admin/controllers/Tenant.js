@@ -49,13 +49,13 @@ export const deleteTenant = async (req, res) => {
 
 export const updateTenant = async (req, res) => {
   try {
-    await Admin.update(req.body, {
+    await Tenant.update(req.body, {
       where: {
         id: req.body.id,
       },
     });
     res.json({
-      message: "Admin Updated",
+      message: "Tenant Updated",
     });
   } catch (err) {
     res.status(400).send(err);
