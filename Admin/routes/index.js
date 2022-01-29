@@ -4,7 +4,6 @@ import cron from "node-cron";
 // Import Controller Product
 import {
   getAdmin,
-  getAdminbyUsername,
   createAdmin,
   updateAdmin,
   deleteAdmin,
@@ -14,7 +13,6 @@ import {
 const router = express.Router();
 
 router.get("/admin", getAdmin);
-// router.get("/admin/username", getAdminbyUsername);
 router.post("/admin", createAdmin);
 router.put("/admin/", updateAdmin);
 router.delete("/admin/", deleteAdmin);
