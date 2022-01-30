@@ -41,7 +41,10 @@ export const isiDaily = async (req, res) => {
           ) === i
       )
       .reverse();
-
+    data.forEach((e) => {
+      delete e.id;
+    });
+    console.log(data);
     db.transaction(async function (t) {
       return SLP.destroy({
         truncate: true,
