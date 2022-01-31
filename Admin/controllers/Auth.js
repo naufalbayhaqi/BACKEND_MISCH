@@ -19,8 +19,9 @@ export const Login = async (req, res) => {
 			where: {
 				username: req.body.username,
 			},
+			attributes: { exclude: ["createdAt", "updatedAt"] },
 		});
-		console.log(JSON.stringify(user));
+		// console.log(user);
 		const match = await bcrypt.compare(req.body.password, user.password);
 		if (!match) return res.status(400).json({ msg: "Password salah" });
 		const userId = user.id;
@@ -37,7 +38,7 @@ export const Login = async (req, res) => {
 		);
 		const refreshToken = jwt.sign(
 			{ userId, username, tenantId, role },
-			"MEMEG",
+			"MEMEK",
 			{
 				expiresIn: "1d",
 			}
@@ -53,9 +54,11 @@ export const Login = async (req, res) => {
 		res.cookie("refreshToken", refreshToken, {
 			httpOnly: true,
 			maxAge: 24 * 60 * 60 * 1000,
+			secure: false,
 		});
-		res.json({ accessToken });
+		res.json({ accessToken, userId, username, tenantId, name });
 	} catch (error) {
+		console.log(error);
 		res.status(404).json({ msg: "Username tidak ditemukan" });
 	}
 };
@@ -81,23 +84,32 @@ export const Register = async (req, res) => {
 };
 
 export const Logout = async (req, res) => {
-	const refreshToken = req.cookies.refreshToken;
-	if (!refreshToken) return res.sendStatus(204);
-	const user = await Users.findAll({
-		where: {
-			refresh_token: refreshToken,
-		},
-	});
-	if (!user) return res.sendStatus(204);
-	const userId = user.id;
-	await Users.update(
-		{ refresh_token: null },
-		{
+	try {
+		const refreshToken = req.cookies["refreshToken"];
+		if (!refreshToken) return res.sendStatus(204);
+		const user = await Users.findAll({
 			where: {
-				id: userId,
+				refresh_token: refreshToken,
 			},
+		});
+		console.log(user[0]);
+		if (!user[0]) {
+			return res.sendStatus(204);
+		} else {
+			const userId = user[0].id;
+			// console.log(userId);
+			await Users.update(
+				{ refresh_token: null },
+				{
+					where: {
+						id: userId,
+					},
+				}
+			);
+			res.clearCookie("refreshToken");
+			return res.sendStatus(200);
 		}
-	);
-	res.clearCookie("refreshToken");
-	return res.sendStatus(200);
+	} catch (err) {
+		res.status(400);
+	}
 };
