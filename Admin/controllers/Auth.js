@@ -29,14 +29,14 @@ export const Login = async (req, res) => {
 		const tenantId = user.tenantId;
 		const role = user.role;
 		const accessToken = jwt.sign(
-			{ userId, name, username, tenantId, role },
+			{ userId, username, tenantId, role },
 			"KONTOL",
 			{
 				expiresIn: "20s",
 			}
 		);
 		const refreshToken = jwt.sign(
-			{ userId, name, username, tenantId, role },
+			{ userId, username, tenantId, role },
 			"MEMEG",
 			{
 				expiresIn: "1d",
