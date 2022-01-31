@@ -13,3 +13,4 @@ export var con = mysql.createConnection({
   database: "axie",
   multipleStatements: true,
 });
+

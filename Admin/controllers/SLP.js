@@ -4,6 +4,7 @@ import { Sequelize } from "sequelize";
 import Tenant from "../models/TenantModel.js";
 import { db } from "../config/Database.js";
 import { Op } from "sequelize";
+
 export const isiDaily = async (req, res) => {
   try {
     const users = await Scholar.findAll({

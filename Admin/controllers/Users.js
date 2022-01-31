@@ -1,7 +1,6 @@
 import Admin from "../models/AdminModel.js";
 import Scholar from "../models/ScholarModel.js";
 import axios from "axios";
-import { con } from "../config/Database.js";
 import { Sequelize } from "sequelize";
 import Tenant from "../models/TenantModel.js";
 import { Op } from "sequelize";

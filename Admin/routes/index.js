@@ -54,4 +54,13 @@ router.post("/average", average);
 router.delete("/tenant", deleteTenant);
 router.put("/tenant", updateTenant);
 
+import { getUsers, Login, Logout, Register } from "../controllers/Auth.js";
+import { verifyToken } from "../middleware/VerifyToken.js";
+import { refreshToken } from "../controllers/RefreshToken.js";
+router.post("/users", Register);
+router.get("/users", verifyToken, getUsers);
+router.post("/login", Login);
+router.get("/token", refreshToken);
+router.delete("/logout", Logout);
+
 export default router;
