@@ -3,10 +3,14 @@ import Tenant from "../models/TenantModel.js";
 import { db } from "../config/Database.js";
 import Scholar from "../models/ScholarModel.js";
 import SLP from "../models/SLPModel.js";
+import { Op } from "sequelize";
 
 export const getTenants = async (req, res) => {
   try {
     const tenants = await Tenant.findAll({
+      where: {
+        [Op.and]: [req.body.id && { id: req.body.id }],
+      },
       order: [["id", "asc"]],
       raw: true,
     });

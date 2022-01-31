@@ -55,7 +55,7 @@ export const Login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
         secure: false,
       });
-      res.header("Access-Control-Allow-Origin", "*");
+      //   res.header("Access-Control-Allow-Origin", "*");
       res.header(
         "Access-Control-Allow-Headers",
         "Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization"
