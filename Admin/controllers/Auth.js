@@ -120,6 +120,7 @@ export const Logout = async (req, res) => {
         }
       );
       res.clearCookie("refreshToken");
+      res.clearCookie("x-access-token");
       return res.sendStatus(200);
     }
   } catch (err) {
