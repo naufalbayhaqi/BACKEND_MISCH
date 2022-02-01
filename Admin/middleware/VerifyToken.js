@@ -2,11 +2,11 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   try {
-    const authHeader = req.cookies["refreshToken"];
-    console.log(authHeader);
-    const token = authHeader && authHeader.split(" ")[1];
+    const token = req.cookies["x-access-token"];
+    console.log(token);
     if (token == null) return res.status(401).send("Invalid Token");
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(token, "KONTOL", (err, decoded) => {
+      console.log(err);
       if (err) return res.sendStatus(403);
       req.username = decoded.username;
       req.tenantId = decoded.tenantId;

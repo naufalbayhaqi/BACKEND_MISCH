@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export const getUsers = async (req, res) => {
   try {
     const users = await Users.findAll({
-      attributes: ["id", "name", "email"],
+      attributes: ["id", "name"],
     });
     res.json(users);
   } catch (error) {
@@ -55,6 +55,9 @@ export const Login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
         secure: false,
       });
+      res.cookie("x-access-token", accessToken, {
+        httpOnly: true,
+      });
       //   res.header("Access-Control-Allow-Origin", "*");
       res.header(
         "Access-Control-Allow-Headers",
@@ -62,7 +65,9 @@ export const Login = async (req, res) => {
       );
       res.header("Access-Control-Allow-Methods", "GET, POST, PUT ,DELETE");
       res.header("Access-Control-Allow-Credentials", true);
-      res.status(200).send({ accessToken, userId, username, tenantId, name });
+      res
+        .status(200)
+        .send({ accessToken, userId, username, tenantId, name, role });
     } else {
       res.status(400).send(err);
     }
