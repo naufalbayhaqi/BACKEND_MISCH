@@ -8,9 +8,11 @@
     "cors": "^2.8.5",
     "dotenv": "^15.0.0",
     "express": "^4.17.2",
+    "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "node-cron": "^3.0.0",
+    "pdfkit-table": "^0.1.85",
     "sequelize": "^7.0.0-alpha.2"
   }
 }

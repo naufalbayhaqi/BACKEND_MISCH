@@ -9,9 +9,9 @@ export const getTenants = async (req, res) => {
   try {
     const tenants = await Tenant.findAll({
       where: {
-        [Op.and]: [req.body.id && { id: req.body.id }],
+        [Op.and]: [req.body.nama && { nama: req.body.nama }],
       },
-      order: [["id", "asc"]],
+      order: [["nama", "asc"]],
       raw: true,
     });
     res.send(tenants);

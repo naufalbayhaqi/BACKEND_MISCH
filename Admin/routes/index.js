@@ -57,10 +57,12 @@ router.put("/tenant", updateTenant);
 import { getUsers, Login, Logout, Register } from "../controllers/Auth.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
+import { download, Print } from "../controllers/Receipt.js";
 router.post("/register", Register);
 router.get("/users", verifyToken, getUsers);
 router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
-
+router.post("/doc", Print);
+router.get("/print", download);
 export default router;
