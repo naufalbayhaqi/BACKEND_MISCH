@@ -12,9 +12,9 @@ export const refreshToken = async (req, res) => {
     });
     const ex = user.username.length;
     // console.log(user.username.length);
-    if (ex < 1) return res.sendStatus(403);
+    if (ex < 1) return res.sendStatus(401);
     jwt.verify(refreshToken, "MEMEK", (err, decoded) => {
-      if (err) return res.sendStatus(403);
+      if (err) return res.sendStatus(401);
       const userId = user.id;
       const name = user.name;
       const username = user.username;
