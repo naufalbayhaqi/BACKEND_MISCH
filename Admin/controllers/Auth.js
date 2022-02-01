@@ -69,7 +69,7 @@ export const Login = async (req, res) => {
         .status(200)
         .send({ accessToken, userId, username, tenantId, name, role });
     } else {
-      res.status(400).send(err);
+      res.status(401).send(err);
     }
   } catch (err) {
     res.status(400).send(err);

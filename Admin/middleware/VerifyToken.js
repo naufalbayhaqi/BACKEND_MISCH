@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 export const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies["x-access-token"];
-    console.log(token);
-    if (token == null) return res.status(401).send("Invalid Token");
+    if (token == null) return res.status(403).send("Invalid Token");
     jwt.verify(token, "KONTOL", (err, decoded) => {
       console.log(err);
       if (err) return res.sendStatus(403);
@@ -15,6 +14,6 @@ export const verifyToken = (req, res, next) => {
       next();
     });
   } catch (err) {
-    res.status(401).send("Invalid Token");
+    res.status(403).send("Invalid Token");
   }
 };
