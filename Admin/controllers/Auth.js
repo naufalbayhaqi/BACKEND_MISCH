@@ -1,6 +1,7 @@
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Tenant from "../models/TenantModel.js";
 
 export const getUsers = async (req, res) => {
   try {
@@ -19,24 +20,28 @@ export const Login = async (req, res) => {
       where: {
         username: req.body.username,
       },
+      include: {
+        model: Tenant,
+        attributes: ["nama"],
+      },
     });
-    // console.log(user);
+    console.log(JSON.stringify(user));
     const match = await bcrypt.compare(req.body.password, user.password);
     if (match) {
       const userId = user.id;
       const name = user.name;
       const username = user.username;
-      const tenantId = user.tenantId;
+      const tenant = user.tenant.nama;
       const role = user.role;
       const accessToken = jwt.sign(
-        { userId, username, tenantId, role },
+        { userId, username, tenant, role },
         "KONTOL",
         {
           expiresIn: "20s",
         }
       );
       const refreshToken = jwt.sign(
-        { userId, username, tenantId, role },
+        { userId, username, tenant, role },
         "MEMEK",
         {
           expiresIn: "1d",
@@ -67,11 +72,12 @@ export const Login = async (req, res) => {
       res.header("Access-Control-Allow-Credentials", true);
       res
         .status(200)
-        .send({ accessToken, userId, username, tenantId, name, role });
+        .send({ accessToken, userId, username, tenant, name, role });
     } else {
       res.status(401).send(err);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 };
