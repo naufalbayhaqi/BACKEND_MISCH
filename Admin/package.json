@@ -13,6 +13,7 @@
     "mysql2": "^2.3.3",
     "node-cron": "^3.0.0",
     "pdfkit-table": "^0.1.85",
+    "random-words": "^1.1.2",
     "sequelize": "^7.0.0-alpha.2"
   }
 }
