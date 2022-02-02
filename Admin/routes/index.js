@@ -12,6 +12,7 @@ import {
 	createScholar,
 	updateScholar,
 	deleteScholar,
+	isiData,
 } from "../controllers/Users.js";
 
 router.post("/scholar/list", getScholar);
