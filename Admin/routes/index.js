@@ -62,7 +62,7 @@ router.get("/doc", Print);
 router.post("/register", createUser);
 router.get("/print", download);
 router.post("/admin", createUser);
-router.put("/admin/", updateUser);
-router.delete("/admin/", deleteUser);
+router.put("/admin", updateUser);
+router.delete("/admin", deleteUser);
 
 export default router;
