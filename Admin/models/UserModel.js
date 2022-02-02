@@ -42,6 +42,15 @@ const Users = db.define(
 		role: {
 			type: DataTypes.INTEGER,
 		},
+		email: {
+			type: DataTypes.STRING,
+			validate: {
+				isEmail: true,
+			},
+		},
+		nowa: {
+			type: DataTypes.STRING,
+		},
 	},
 	{
 		freezeTableName: true,
