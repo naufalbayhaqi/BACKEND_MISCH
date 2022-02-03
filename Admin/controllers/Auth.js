@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import Tenant from "../models/TenantModel.js";
 import axios from "axios";
 import randomWords from "random-words";
-import { Op } from "sequelize/dist";
+import { Op } from "sequelize";
 
 export const getUsers = async (req, res) => {
   try {
