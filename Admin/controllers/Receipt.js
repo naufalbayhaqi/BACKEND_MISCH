@@ -6,10 +6,15 @@ import Tenant from "../models/TenantModel.js";
 
 export async function Print(req, res) {
   try {
-    const tenant = req.body.nama;
-    const dir = `./pdf/` + tenant;
-    if (!fs.existsSync(dir)){
-      fs.mkdir(dir, {recursive: true});
+    var dir = "";
+    const tenant = req.body.tenant;
+    if (req.body.tenant != "") {
+      dir = `./pdf/` + req.body.tenant;
+    } else {
+      dir = `./pdf/`;
+    }
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
     } else {
       if (req.body.tenant) {
         let doc = new PDFDocument({ margin: 30, size: "A4" });
@@ -77,7 +82,7 @@ export async function Print(req, res) {
             [Sequelize.fn("sum", Sequelize.col("ingameslp")), "akumulasi"],
           ],
         });
-  
+
         const table = {
           headers: [
             { label: "Nama", property: "nama", width: 300, renderer: null },
@@ -108,7 +113,7 @@ export async function Print(req, res) {
 }
 
 export const download = async (req, res) => {
-  const directoryPath = "./";
+  const directoryPath = "./pdf/";
   const fileName = req.body.filename;
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {
