@@ -8,11 +8,11 @@ const router = express.Router();
 //// Scholar
 
 import {
-	getScholar,
-	createScholar,
-	updateScholar,
-	deleteScholar,
-	isiData,
+  getScholar,
+  createScholar,
+  updateScholar,
+  deleteScholar,
+  isiData,
 } from "../controllers/Users.js";
 
 router.post("/scholar/list", getScholar);
@@ -32,10 +32,10 @@ router.post("/daily/list", getDaily);
 
 // Tenant
 import {
-	createTenant,
-	deleteTenant,
-	getTenants,
-	updateTenant,
+  createTenant,
+  deleteTenant,
+  getTenants,
+  updateTenant,
 } from "../controllers/Tenant.js";
 router.get("/tenant", getTenants);
 router.post("/tenant", createTenant);
@@ -47,15 +47,17 @@ import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import { download, Print } from "../controllers/Receipt.js";
 import {
-	createUser,
-	deleteUser,
-	getUsers,
-	Login,
-	Logout,
-	updateUser,
+  createUser,
+  deleteUser,
+  getUsers,
+  Login,
+  Logout,
+  updateUser,
+  getProfile,
 } from "../controllers/Auth.js";
 router.get("/users", verifyToken, getUsers);
 router.post("/login", Login);
+router.post("/profile", getProfile);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 router.get("/doc", Print);
