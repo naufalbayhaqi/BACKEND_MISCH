@@ -63,6 +63,6 @@ router.get("/users", verifyToken, getUsers);
 router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
-router.get("/doc", Print);
-router.get("/print", download);
+router.post("/doc", Print);
+router.post("/download", download);
 export default router;
