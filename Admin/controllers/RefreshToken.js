@@ -4,17 +4,19 @@ import jwt from "jsonwebtoken";
 export const refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies["refreshToken"];
-    if (!refreshToken) return res.sendStatus(401);
+    if (!refreshToken) return res.status(401).send("gagal1");
     const user = await Users.findOne({
       where: {
         refresh_token: refreshToken,
       },
     });
-    const ex = user.username.length;
-    // console.log(user.username.length);
-    if (ex < 1) return res.sendStatus(401);
+    if (!user) {
+      res.clearCookie("refreshToken");
+      res.clearCookie("x-access-token");
+      return res.status(401).send("gagal2");
+    }
     jwt.verify(refreshToken, "MEMEK", (err, decoded) => {
-      if (err) return res.sendStatus(401);
+      if (err) return res.status(401).send("gagal3");
       const userId = user.id;
       const name = user.name;
       const username = user.username;
@@ -28,6 +30,7 @@ export const refreshToken = async (req, res) => {
       res.json({ accessToken });
     });
   } catch (error) {
-    console.log(error);
+    res.clearCookie("refreshToken");
+    res.status(403);
   }
 };

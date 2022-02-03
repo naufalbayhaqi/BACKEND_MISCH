@@ -2,20 +2,8 @@
 import express from "express";
 import cron from "node-cron";
 // Import Controller Product
-import {
-  getAdmin,
-  createAdmin,
-  updateAdmin,
-  deleteAdmin,
-  isiData,
-} from "../controllers/Users.js";
 
 const router = express.Router();
-
-router.get("/admin", getAdmin);
-router.post("/admin", createAdmin);
-router.put("/admin/", updateAdmin);
-router.delete("/admin/", deleteAdmin);
 
 //// Scholar
 
@@ -24,6 +12,7 @@ import {
   createScholar,
   updateScholar,
   deleteScholar,
+  isiData,
 } from "../controllers/Users.js";
 
 router.post("/scholar/list", getScholar);
@@ -54,15 +43,28 @@ router.post("/average", average);
 router.delete("/tenant", deleteTenant);
 router.put("/tenant", updateTenant);
 
-import { getUsers, Login, Logout, Register } from "../controllers/Auth.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import { download, Print } from "../controllers/Receipt.js";
-router.post("/register", Register);
+import {
+  createUser,
+  deleteUser,
+  getUsers,
+  Login,
+  Logout,
+  updateUser,
+  getProfile,
+} from "../controllers/Auth.js";
 router.get("/users", verifyToken, getUsers);
 router.post("/login", Login);
+router.post("/profile", getProfile);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
-router.post("/doc", Print);
-router.post("/download", download);
+router.get("/doc", Print);
+router.post("/register", createUser);
+router.get("/print", download);
+router.post("/admin", createUser);
+router.put("/admin", updateUser);
+router.delete("/admin", deleteUser);
+
 export default router;
