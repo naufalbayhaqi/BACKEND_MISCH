@@ -113,13 +113,29 @@ export async function Print(req, res) {
 }
 
 export const download = async (req, res) => {
-  const directoryPath = "./pdf/";
-  const fileName = req.body.filename;
-  res.download(directoryPath + fileName, fileName, (err) => {
-    if (err) {
-      res.status(500).send({
-        message: "Could not download the file. " + err,
-      });
+  try {
+    var directoryPath = "./pdf/";
+    var fileName = req.body.filename + ".pdf";
+    if (req.body.tenant) {
+      directoryPath = "./pdf/" + req.body.tenant + "/";
     }
-  });
+    // res.header("Access-Control-Allow-Origin", "*");
+    console.log(directoryPath);
+    console.log(fileName);
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization"
+    );
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT ,DELETE");
+    res.header("Access-Control-Allow-Credentials", true);
+    res.download(directoryPath + fileName, fileName, (err) => {
+      if (err) {
+        res.status(500).send({
+          message: "Could not download the file. " + err,
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };

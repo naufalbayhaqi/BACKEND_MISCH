@@ -12,12 +12,20 @@ export const getUsers = async (req, res) => {
       where: {
         [Op.and]: [req.body.username && { username: req.body.username }],
       },
-      attributes: ["id", "name", "role", "email", "nowa"],
+      attributes: [
+        "id",
+        "name",
+        "role",
+        "email",
+        "nowa",
+        "username",
+        "tenantId",
+      ],
     });
     res.send(users);
   } catch (error) {
     res.status(400).send(error);
-    // console.log(error);
+    console.log(error);
   }
 };
 
@@ -102,7 +110,7 @@ export const updateUser = async (req, res) => {
   try {
     await Users.update(req.body, {
       where: {
-        username: req.body.username,
+        id: req.body.id,
       },
     });
     res.json({
@@ -110,6 +118,7 @@ export const updateUser = async (req, res) => {
     });
   } catch (err) {
     res.status(400).send(err);
+    console.log(err);
   }
 };
 
