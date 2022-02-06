@@ -8,11 +8,11 @@ const router = express.Router();
 //// Scholar
 
 import {
-  getScholar,
-  createScholar,
-  updateScholar,
-  deleteScholar,
-  isiData,
+	getScholar,
+	createScholar,
+	updateScholar,
+	deleteScholar,
+	isiData,
 } from "../controllers/Users.js";
 
 router.post("/scholar/list", getScholar);
@@ -27,15 +27,15 @@ cron.schedule("0 7 * * *", isiData);
 
 import { isiDaily, getDaily, average } from "../controllers/SLP.js";
 router.post("/daily", isiDaily);
-cron.schedule("0 * * * *", isiDaily);
+cron.schedule("* * * * *", isiDaily);
 router.post("/daily/list", getDaily);
 
 // Tenant
 import {
-  createTenant,
-  deleteTenant,
-  getTenants,
-  updateTenant,
+	createTenant,
+	deleteTenant,
+	getTenants,
+	updateTenant,
 } from "../controllers/Tenant.js";
 router.get("/tenant", getTenants);
 router.post("/tenant", createTenant);
@@ -47,13 +47,14 @@ import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import { download, Print } from "../controllers/Receipt.js";
 import {
-  createUser,
-  deleteUser,
-  getUsers,
-  Login,
-  Logout,
-  updateUser,
-  getProfile,
+	createUser,
+	deleteUser,
+	getUsers,
+	Login,
+	Logout,
+	updateUser,
+	getProfile,
+	forgotPassowrd,
 } from "../controllers/Auth.js";
 router.get("/users", verifyToken, getUsers);
 router.post("/login", Login);
@@ -66,5 +67,6 @@ router.post("/print", download);
 router.post("/admin", createUser);
 router.put("/admin", updateUser);
 router.delete("/admin", deleteUser);
+router.put("/lupa", forgotPassowrd);
 
 export default router;
