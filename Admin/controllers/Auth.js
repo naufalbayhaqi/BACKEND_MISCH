@@ -35,6 +35,10 @@ export const getProfile = async (req, res) => {
 			where: {
 				username: req.body.username,
 			},
+			include: {
+				model: Tenant,
+				attributes: ["nama"],
+			},
 			attributes: [
 				"id",
 				"name",
