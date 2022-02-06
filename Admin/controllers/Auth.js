@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Tenant from "../models/TenantModel.js";
 import axios from "axios";
+import { Sequelize } from "sequelize";
 import randomWords from "random-words";
 import { Op } from "sequelize";
 
@@ -37,7 +38,7 @@ export const getProfile = async (req, res) => {
 			},
 			include: {
 				model: Tenant,
-				attributes: ["nama"],
+				attributes: [],
 			},
 			attributes: [
 				"id",
@@ -47,11 +48,15 @@ export const getProfile = async (req, res) => {
 				"nowa",
 				"tenantId",
 				"username",
+				[Sequelize.literal("tenant.nama"), "tenant"],
 			],
+			raw: true,
 		});
+		console.log(users);
 		res.send(users);
 	} catch (error) {
 		res.status(400).send(error);
+		console.log(error);
 	}
 };
 
@@ -149,7 +154,6 @@ export const Login = async (req, res) => {
 			},
 			include: {
 				model: Tenant,
-				attributes: ["nama"],
 			},
 		});
 		// console.log(JSON.stringify(user));
