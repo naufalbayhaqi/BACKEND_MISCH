@@ -119,7 +119,7 @@ Silakan segera login dan lakukan perubahan password.`;
 export const updateUser = async (req, res) => {
 	try {
 		const id = req.body.id;
-		const nama = req.body.nama;
+		const nama = req.body.name;
 		const nowa = req.body.nowa;
 		const email = req.body.email;
 		const salt = await bcrypt.genSalt();
@@ -151,25 +151,25 @@ export const updateUser = async (req, res) => {
 				});
 				res.status(200);
 			} else {
-				res.status(401);
+				await Users.update(
+					{
+						id: id,
+						name: nama,
+						nowa: nowa,
+						email: email,
+					},
+					{
+						where: {
+							id: req.body.id,
+						},
+					}
+				);
+				res.json({
+					message: "User Updated",
+				});
 			}
 		} else {
-			await Users.update(
-				{
-					id: id,
-					name: nama,
-					nowa: nowa,
-					email: email,
-				},
-				{
-					where: {
-						id: req.body.id,
-					},
-				}
-			);
-			res.json({
-				message: "User Updated",
-			});
+			res.status(401);
 		}
 		res.status(200);
 	} catch (err) {
