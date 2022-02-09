@@ -149,11 +149,12 @@ export const updateUser = async (req, res) => {
 				res.json({
 					message: "User Updated",
 				});
+				res.status(200);
 			} else {
 				res.status(401);
 			}
 		} else {
-			await Users.update({
+			await Users.update(req.body, {
 				where: {
 					id: req.body.id,
 				},
@@ -162,6 +163,7 @@ export const updateUser = async (req, res) => {
 				message: "User Updated",
 			});
 		}
+		res.status(200);
 	} catch (err) {
 		res.status(400).send(err);
 		console.log(err);
