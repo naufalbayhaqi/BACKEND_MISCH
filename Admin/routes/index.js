@@ -55,6 +55,7 @@ import {
 	updateUser,
 	getProfile,
 	forgotPassowrd,
+	updateProfile,
 } from "../controllers/Auth.js";
 router.get("/users", verifyToken, getUsers);
 router.post("/login", Login);
@@ -66,6 +67,7 @@ router.post("/register", createUser);
 router.post("/print", download);
 router.post("/admin", createUser);
 router.put("/admin", updateUser);
+router.put("/user", updateProfile);
 router.delete("/admin", deleteUser);
 router.put("/lupa", forgotPassowrd);
 
