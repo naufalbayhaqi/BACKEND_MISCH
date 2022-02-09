@@ -154,11 +154,19 @@ export const updateUser = async (req, res) => {
 				res.status(401);
 			}
 		} else {
-			await Users.update(req.body, {
-				where: {
-					id: req.body.id,
+			await Users.update(
+				{
+					id: id,
+					name: nama,
+					nowa: nowa,
+					email: email,
 				},
-			});
+				{
+					where: {
+						id: req.body.id,
+					},
+				}
+			);
 			res.json({
 				message: "User Updated",
 			});
