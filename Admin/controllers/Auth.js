@@ -117,14 +117,41 @@ Silakan segera login dan lakukan perubahan password.`;
 
 export const updateUser = async (req, res) => {
 	try {
-		await Users.update(req.body, {
-			where: {
-				id: req.body.id,
-			},
-		});
-		res.json({
-			message: "User Updated",
-		});
+		const id = req.body.id;
+		const nama = req.body.nama;
+		const nowa = req.body.nowa;
+		const email = req.body.email;
+		console.log(req.body);
+		if (req.body.password) {
+			const salt = await bcrypt.genSalt();
+			const hashPassword = await bcrypt.hash(req.body.password, salt);
+			await Users.update(
+				{
+					id: id,
+					nama: nama,
+					nowa: nowa,
+					email: email,
+					password: hashPassword,
+				},
+				{
+					where: {
+						id: req.body.id,
+					},
+				}
+			);
+			res.json({
+				message: "User Updated",
+			});
+		} else {
+			await Users.update({
+				where: {
+					id: req.body.id,
+				},
+			});
+			res.json({
+				message: "User Updated",
+			});
+		}
 	} catch (err) {
 		res.status(400).send(err);
 		console.log(err);
