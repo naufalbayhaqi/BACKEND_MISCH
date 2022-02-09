@@ -122,16 +122,16 @@ export const updateUser = async (req, res) => {
 		const nama = req.body.nama;
 		const nowa = req.body.nowa;
 		const email = req.body.email;
-		if (req.body.password) {
-			const salt = await bcrypt.genSalt();
-			const password = await bcrypt.hash(req.body.password, salt);
-			const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
-			const user = await Users.findOne({
-				where: {
-					id: req.body.id,
-				},
-			});
-			if (user.password === password) {
+		const salt = await bcrypt.genSalt();
+		const password = await bcrypt.hash(req.body.password, salt);
+		const user = await Users.findOne({
+			where: {
+				id: req.body.id,
+			},
+		});
+		if (user.password === password) {
+			if (req.body.newPassword) {
+				const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
 				await Users.update(
 					{
 						id: id,
