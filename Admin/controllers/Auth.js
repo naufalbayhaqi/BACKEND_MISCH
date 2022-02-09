@@ -122,33 +122,49 @@ export const updateUser = async (req, res) => {
 		const nama = req.body.name;
 		const nowa = req.body.nowa;
 		const email = req.body.email;
-		const salt = await bcrypt.genSalt();
-		const password = await bcrypt.hash(req.body.password, salt);
-		const user = await Users.findOne({
-			where: {
-				password: password,
-			},
-		});
-		if (user) {
-			const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
-			await Users.update(
-				{
-					id: id,
-					name: nama,
-					nowa: nowa,
-					email: email,
-					password: hashPassword,
-				},
-				{
-					where: {
-						id: req.body.id,
+		const pw = req.body.password;
+		const password = await bcrypt.compare(pw, salt);
+		if (password) {
+			if (req.body.newPassword) {
+				const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
+				await Users.update(
+					{
+						id: id,
+						name: nama,
+						nowa: nowa,
+						email: email,
+						password: hashPassword,
 					},
-				}
-			);
-			res.json({
-				message: "User Updated",
-			});
-			res.status(200);
+					{
+						where: {
+							id: req.body.id,
+						},
+					}
+				);
+				res.json({
+					message: "User Updated",
+				});
+				res.status(200);
+			} else {
+				await Users.update(
+					{
+						id: id,
+						name: nama,
+						nowa: nowa,
+						email: email,
+						password: hashPassword,
+					},
+					{
+						where: {
+							id: req.body.id,
+						},
+					}
+				);
+				res.json({
+					message: "User Updated",
+				});
+				res.status(200);
+			}
 		} else {
 			res.status(401);
 		}
@@ -165,9 +181,11 @@ export const updateProfile = async (req, res) => {
 				id: req.body.id,
 			},
 		});
-		res.json({
-			message: "User Updated",
-		});
+		res
+			.json({
+				message: "Admin Updated",
+			})
+			.status(200);
 	} catch (err) {
 		res.status(400).send(err);
 	}
