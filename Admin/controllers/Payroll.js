@@ -6,5 +6,5 @@ import { db } from "../config/Database.js";
 import { Op } from "sequelize";
 
 export const Kontol = async (req, res) => {
-	(data = req.body.id), console.log(data);
+  console.log(req.body.id);
 };
