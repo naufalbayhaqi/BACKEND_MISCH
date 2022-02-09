@@ -6,6 +6,7 @@ import axios from "axios";
 import { Sequelize } from "sequelize";
 import randomWords from "random-words";
 import { Op } from "sequelize";
+import e from "express";
 
 export const getUsers = async (req, res) => {
 	try {
@@ -121,27 +122,36 @@ export const updateUser = async (req, res) => {
 		const nama = req.body.nama;
 		const nowa = req.body.nowa;
 		const email = req.body.email;
-		console.log(req.body);
 		if (req.body.password) {
 			const salt = await bcrypt.genSalt();
-			const hashPassword = await bcrypt.hash(req.body.password, salt);
-			await Users.update(
-				{
-					id: id,
-					nama: nama,
-					nowa: nowa,
-					email: email,
-					password: hashPassword,
+			const password = await bcrypt.hash(req.body.password, salt);
+			const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
+			const user = await Users.findOne({
+				where: {
+					id: req.body.id,
 				},
-				{
-					where: {
-						id: req.body.id,
-					},
-				}
-			);
-			res.json({
-				message: "User Updated",
 			});
+			if (user.password === password) {
+				await Users.update(
+					{
+						id: id,
+						name: nama,
+						nowa: nowa,
+						email: email,
+						password: hashPassword,
+					},
+					{
+						where: {
+							id: req.body.id,
+						},
+					}
+				);
+				res.json({
+					message: "User Updated",
+				});
+			} else {
+				res.status(401);
+			}
 		} else {
 			await Users.update({
 				where: {
