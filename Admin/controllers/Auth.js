@@ -123,7 +123,12 @@ export const updateUser = async (req, res) => {
 		const nowa = req.body.nowa;
 		const email = req.body.email;
 		const pw = req.body.password;
-		const password = await bcrypt.compare(pw, salt);
+		const user = await Users({
+			where: {
+				id: id,
+			},
+		});
+		const password = await bcrypt.compare(pw, user.password);
 		if (password) {
 			if (req.body.newPassword) {
 				const hashPassword = await bcrypt.hash(req.body.newPassword, salt);
