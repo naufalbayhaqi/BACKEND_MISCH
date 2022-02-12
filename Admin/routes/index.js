@@ -71,7 +71,8 @@ router.put("/user", updateProfile);
 router.delete("/admin", deleteUser);
 router.put("/lupa", forgotPassowrd);
 
-import { Kontol } from "../controllers/Payroll.js";
-router.post("/payroll", Kontol);
+import { addPayroll, getPayroll } from "../controllers/Payroll.js";
+router.post("/payroll", addPayroll);
+router.post("/bebas", getPayroll);
 
 export default router;
