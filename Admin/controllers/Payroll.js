@@ -16,7 +16,8 @@ export const addPayroll = async (req, res) => {
 				batch: req.body.nama,
 			});
 		}
-		await Payroll.bulkCreate(arr).res.status(200);
+		await Payroll.bulkCreate(arr);
+		res.status(200).send("BENAR");
 	} catch (err) {
 		res.send(err).status(400);
 	}
@@ -25,7 +26,9 @@ export const addPayroll = async (req, res) => {
 export const getPayroll = async (req, res) => {
 	try {
 		const payroll = await Payroll.findAll({
-			where: { batch: req.body.nama },
+			where: {
+				[Op.and]: [req.body.nama && { batch: req.body.nama }],
+			},
 			include: {
 				model: Scholar,
 				attributes: [],
