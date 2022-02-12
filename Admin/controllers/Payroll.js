@@ -115,6 +115,11 @@ export const editPayroll = async (req, res) => {
 
 export const deletePayroll = async (req, res) => {
 	try {
+		await Payroll.destroy({
+			where: {
+				batch: req.body.nama,
+			},
+		});
 	} catch (err) {}
 };
 
