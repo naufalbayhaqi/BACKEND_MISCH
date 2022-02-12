@@ -79,6 +79,17 @@ export const getPayroll = async (req, res) => {
 
 export const editPayroll = async (req, res) => {
 	try {
+		var arr = [];
+		var len = req.body.length;
+		for (var i = 0; i < len; i++) {
+			arr.push({
+				id: req.body.data[i].id,
+				scholarId: req.body.data[i].scholarId,
+				batch: req.body.data[i].nama,
+				slp: req.body.data[i].slp,
+				status: req.body.status,
+			});
+		}
 		for (let i = 0; i < req.body.data.length; i++) {
 			await Payroll.update(req.body.data[i], {
 				where: {
