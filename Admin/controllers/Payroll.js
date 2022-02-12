@@ -26,9 +26,7 @@ export const addPayroll = async (req, res) => {
 export const getPayroll = async (req, res) => {
 	try {
 		const payroll = await Payroll.findAll({
-			where: {
-				[Op.and]: [req.body.nama && { batch: req.body.nama }],
-			},
+			where: { batch: req.body.nama },
 			include: {
 				model: Scholar,
 				attributes: [],
@@ -91,4 +89,16 @@ export const editPayroll = async (req, res) => {
 export const deletePayroll = async (req, res) => {
 	try {
 	} catch (err) {}
+};
+
+export const getBatch = async (req, res) => {
+	try {
+		const tol = await Payroll.findAll({
+			attributes: ["batch", "status"],
+			group: ["batch"],
+		});
+		res.send(tol).status(200);
+	} catch (err) {
+		res.send(err).status(400);
+	}
 };
