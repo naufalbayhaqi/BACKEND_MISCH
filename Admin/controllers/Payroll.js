@@ -167,6 +167,17 @@ export const finalize = async (req, res) => {
 						}
 					);
 				})
+				.then(function () {
+					return SLP.create(
+						{
+							tenantId: req.body.tenantId,
+							daily: 0,
+							akumulasi: 0,
+							date: new Date(),
+						},
+						{ transaction: t }
+					);
+				})
 				.then(() => {
 					res.status(200).send("berhasil");
 				})
