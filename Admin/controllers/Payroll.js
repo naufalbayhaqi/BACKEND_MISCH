@@ -58,16 +58,24 @@ export const getPayroll = async (req, res) => {
 					"scholar",
 				],
 				[
-					Sequelize.cast(
-						Sequelize.literal("(100-fee)*(scholar.ownerpshare)*slp/10000"),
-						"int"
+					Sequelize.fn(
+						"ROUND",
+						Sequelize.cast(
+							Sequelize.literal("(100-fee)*(scholar.ownerpshare)*slp/10000"),
+							"float"
+						),
+						2
 					),
 					"owner",
 				],
 				[
-					Sequelize.cast(
-						Sequelize.literal("fee*scholar.ownerpshare*slp/10000"),
-						"int"
+					Sequelize.fn(
+						"ROUND",
+						Sequelize.cast(
+							Sequelize.literal("fee*scholar.ownerpshare*slp/10000"),
+							"float"
+						),
+						2
 					),
 					"admin",
 				],
