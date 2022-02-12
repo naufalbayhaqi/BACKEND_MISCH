@@ -126,7 +126,7 @@ export const deletePayroll = async (req, res) => {
 		});
 		res.status(200).send("berhasil");
 	} catch (err) {
-		res.send(err).status(400);
+		res.status(400).send(err);
 	}
 };
 
@@ -152,25 +152,31 @@ export const getBatch = async (req, res) => {
 };
 
 export const finalize = async (req, res) => {
-	db.transaction(async function (t) {
-		return SLP.destroy({
-			where: { tenantId: req.body.tenantId },
-			transaction: t,
-		});
-	})
-		.then(function (t) {
-			return Scholar.update(
-				{ average: 0 },
-				{
-					where: { tenantId: req.body.tenantId },
-					transaction: t,
-				}
-			);
+	try {
+		db.transaction(async function (t) {
+			return SLP.destroy({
+				where: { tenantId: req.body.tenantId },
+				transaction: t,
+			});
 		})
-		.then(() => {
-			res.status(200).send("berhasil");
-		})
-		.catch(function (err) {
-			res.status(400).send("gagal");
-		});
+			.then(function (t) {
+				return Scholar.update(
+					{ average: 0 },
+					{
+						where: { tenantId: req.body.tenantId },
+						transaction: t,
+					}
+				);
+			})
+			.then(() => {
+				res.status(200).send("berhasil");
+			})
+			.catch(function (err) {
+				res.status(400).send("gagal");
+				console.log(err);
+			});
+	} catch (err) {
+		res.status(400).send("nudes");
+		console.log(err);
+	}
 };
