@@ -61,12 +61,20 @@ export const getPayroll = async (req, res) => {
 					Sequelize.fn(
 						"ROUND",
 						Sequelize.cast(
-							Sequelize.literal("scholar.ownerpshare*slp/100"),
+							Sequelize.literal("(scholar.ownerpshare-fee)*slp/100"),
 							"float"
 						),
 						2
 					),
 					"owner",
+				],
+				[
+					Sequelize.fn(
+						"ROUND",
+						Sequelize.cast(Sequelize.literal("fee*slp/100"), "float"),
+						2
+					),
+					"admin",
 				],
 			],
 			raw: true,
@@ -85,7 +93,7 @@ export const editPayroll = async (req, res) => {
 			arr.push({
 				id: req.body.data[i].id,
 				scholarId: req.body.data[i].scholarId,
-				batch: req.body.data[i].nama,
+				batch: req.body.data[i].batch,
 				slp: req.body.data[i].slp,
 				status: req.body.status,
 			});
@@ -97,6 +105,7 @@ export const editPayroll = async (req, res) => {
 				},
 			});
 		}
+		console.log(arr);
 		res.send("MEMEK").status(200);
 	} catch (err) {
 		res.send(err).status(400);
