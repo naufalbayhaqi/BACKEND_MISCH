@@ -80,7 +80,7 @@ export const getPayroll = async (req, res) => {
 export const editPayroll = async (req, res) => {
 	try {
 		var arr = [];
-		var len = req.body.length;
+		var len = req.body.data.length;
 		for (var i = 0; i < len; i++) {
 			arr.push({
 				id: req.body.data[i].id,
@@ -91,7 +91,7 @@ export const editPayroll = async (req, res) => {
 			});
 		}
 		for (let i = 0; i < req.body.data.length; i++) {
-			await Payroll.update(req.body.data[i], {
+			await Payroll.update(arr[i], {
 				where: {
 					id: req.body.data[i].id,
 				},
