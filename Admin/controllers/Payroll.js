@@ -16,9 +16,7 @@ export const addPayroll = async (req, res) => {
 				batch: req.body.nama,
 			});
 		}
-		console.log(arr);
-		await Payroll.bulkCreate(arr);
-		res.status(200);
+		await Payroll.bulkCreate(arr).res.status(200);
 	} catch (err) {
 		res.send(err).status(400);
 	}
