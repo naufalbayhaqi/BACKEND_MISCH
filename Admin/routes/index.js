@@ -73,6 +73,7 @@ router.put("/lupa", forgotPassowrd);
 
 import {
 	addPayroll,
+	deletePayroll,
 	editPayroll,
 	getBatch,
 	getPayroll,
@@ -81,4 +82,5 @@ router.post("/payroll", addPayroll);
 router.post("/bebas", getPayroll);
 router.get("/payroll", getBatch);
 router.post("/editpayroll", editPayroll);
+router.delete("/payroll", deletePayroll);
 export default router;
