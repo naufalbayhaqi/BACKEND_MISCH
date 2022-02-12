@@ -71,8 +71,14 @@ router.put("/user", updateProfile);
 router.delete("/admin", deleteUser);
 router.put("/lupa", forgotPassowrd);
 
-import { addPayroll, getBatch, getPayroll } from "../controllers/Payroll.js";
+import {
+	addPayroll,
+	editPayroll,
+	getBatch,
+	getPayroll,
+} from "../controllers/Payroll.js";
 router.post("/payroll", addPayroll);
 router.post("/bebas", getPayroll);
 router.get("/payroll", getBatch);
+router.post("/editpayroll", editPayroll);
 export default router;
