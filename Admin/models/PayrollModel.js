@@ -21,6 +21,12 @@ const Payroll = db.define(
 		batch: {
 			type: DataTypes.STRING,
 		},
+		slp: {
+			type: DataTypes.INTEGER,
+		},
+		status: {
+			type: DataTypes.INTEGER,
+		},
 	},
 	{
 		freezeTableName: true,

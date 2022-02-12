@@ -79,12 +79,17 @@ export const getPayroll = async (req, res) => {
 
 export const editPayroll = async (req, res) => {
 	try {
-		await Payroll.bulkCreate(req.body.data, {
-			updateOnDuplicate: ["slp", "status"],
-		});
-		res.send("berhasil").status(200);
+		for (let i = 0; i < req.body.data.length; i++) {
+			await Payroll.update(req.body.data[i], {
+				where: {
+					id: req.body.data[i].id,
+				},
+			});
+		}
+		res.send("MEMEK").status(200);
 	} catch (err) {
 		res.send(err).status(400);
+		console.log(err);
 	}
 };
 

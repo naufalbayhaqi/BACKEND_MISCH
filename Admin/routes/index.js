@@ -27,7 +27,7 @@ cron.schedule("0 7 * * *", isiData);
 
 import { isiDaily, getDaily, average } from "../controllers/SLP.js";
 router.post("/daily", isiDaily);
-cron.schedule("* * * * *", isiDaily);
+// cron.schedule("* * * * *", isiDaily);
 router.post("/daily/list", getDaily);
 
 // Tenant
