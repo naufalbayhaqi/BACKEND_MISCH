@@ -75,6 +75,7 @@ import {
 	addPayroll,
 	deletePayroll,
 	editPayroll,
+	finalize,
 	getBatch,
 	getPayroll,
 } from "../controllers/Payroll.js";
@@ -83,4 +84,6 @@ router.post("/bebas", getPayroll);
 router.get("/payroll", getBatch);
 router.post("/editpayroll", editPayroll);
 router.delete("/payroll", deletePayroll);
+router.post("/finalize", finalize);
+
 export default router;

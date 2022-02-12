@@ -140,3 +140,26 @@ export const getBatch = async (req, res) => {
 		res.send(err).status(400);
 	}
 };
+
+export const finalize = async (req, res) => {
+	try {
+		const tenant = await Tenant.findOne({ where: { nama: req.body.tenant } });
+		db.transaction(async function (t) {
+			return SLP.destroy({
+				where: { tenantId: tenant.id },
+				transaction: t,
+			});
+		}).then(function (t) {
+			return Scholar.update(
+				{ average: 0 },
+				{
+					where: { tenantId: tenant.id },
+					transaction: t,
+				}
+			);
+		});
+		res.status(200).send("berhasil");
+	} catch (err) {
+		res.send(err).status(400);
+	}
+};

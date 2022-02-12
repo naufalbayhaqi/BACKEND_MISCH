@@ -66,10 +66,7 @@ export async function Print(req, res) {
 				],
 				raw: true,
 			});
-			console.log(payroll);
-			const date = new Date().toDateString().replace(/ /g, "_");
-			const namaFile = payroll[0].batch + "_" + date;
-			console.log(namaFile);
+			const namaFile = payroll[0].batch;
 			doc.pipe(fs.createWriteStream(`./receipt` + `/${namaFile}.pdf`));
 			const table = {
 				headers: [
@@ -111,7 +108,6 @@ export async function Print(req, res) {
 			res.json({ msg: "hehe" }).status(200);
 		}
 	} catch (err) {
-		console.log(err);
 		res.send(err).status(400);
 	}
 }
@@ -134,6 +130,6 @@ export const download = async (req, res) => {
 			}
 		});
 	} catch (err) {
-		console.log(err);
+		res.send(err).status(400);
 	}
 };
