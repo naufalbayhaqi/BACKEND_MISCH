@@ -134,6 +134,14 @@ export const getBatch = async (req, res) => {
 		const tol = await Payroll.findAll({
 			attributes: ["batch", "status"],
 			group: ["batch"],
+			include: {
+				model: Scholar,
+				attributes: [],
+				include: {
+					model: Tenant,
+					attributes: ["id", "nama"],
+				},
+			},
 		});
 		res.send(tol).status(200);
 	} catch (err) {
@@ -143,17 +151,16 @@ export const getBatch = async (req, res) => {
 
 export const finalize = async (req, res) => {
 	try {
-		const tenant = await Tenant.findOne({ where: { nama: req.body.tenant } });
 		db.transaction(async function (t) {
 			return SLP.destroy({
-				where: { tenantId: tenant.id },
+				where: { tenantId: req.body.tenantId },
 				transaction: t,
 			});
 		}).then(function (t) {
 			return Scholar.update(
 				{ average: 0 },
 				{
-					where: { tenantId: tenant.id },
+					where: { tenantId: req.body.tenantId },
 					transaction: t,
 				}
 			);

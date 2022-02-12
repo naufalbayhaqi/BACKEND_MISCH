@@ -66,6 +66,45 @@ export async function Print(req, res) {
 				],
 				raw: true,
 			});
+			const total = await Payroll.findOne({
+				where: {
+					batch: req.body.nama,
+				},
+				include: {
+					model: Scholar,
+					attributes: [],
+				},
+				attributes: [
+					[
+						Sequelize.fn(
+							"ROUND",
+							Sequelize.literal("SUM(scholar.scholarpshare*slp/100)"),
+							2
+						),
+						"scholar",
+					],
+					[
+						Sequelize.fn(
+							"ROUND",
+							Sequelize.literal(
+								"SUM((100-fee)*(scholar.ownerpshare)*slp/10000)"
+							),
+							2
+						),
+						"owner",
+					],
+					[
+						Sequelize.fn(
+							"ROUND",
+							Sequelize.literal("SUM(fee*scholar.ownerpshare*slp/10000)"),
+							2
+						),
+						"admin",
+					],
+				],
+				raw: true,
+			});
+			console.log(total);
 			const namaFile = payroll[0].batch;
 			doc.pipe(fs.createWriteStream(`./receipt` + `/${namaFile}.pdf`));
 			const table = {
@@ -97,6 +136,7 @@ export async function Print(req, res) {
 					},
 				],
 				datas: payroll,
+				rows: [["Total", "", total.scholar, total.owner, total.admin]],
 			};
 			doc.table(table, {
 				prepareHeader: () => doc.font("Helvetica-Bold").fontSize(8),
