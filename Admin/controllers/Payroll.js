@@ -157,24 +157,24 @@ export const finalize = async (req, res) => {
 			return SLP.destroy({
 				where: { tenantId: req.body.tenantId },
 				transaction: t,
-			});
-		})
-			.then(function (t) {
-				return Scholar.update(
-					{ average: 0 },
-					{
-						where: { tenantId: req.body.tenantId },
-						transaction: t,
-					}
-				);
 			})
-			.then(() => {
-				res.status(200).send("berhasil");
-			})
-			.catch(function (err) {
-				res.status(400).send("gagal");
-				console.log(err);
-			});
+				.then(function () {
+					return Scholar.update(
+						{ average: 0 },
+						{
+							where: { tenantId: req.body.tenantId },
+							transaction: t,
+						}
+					);
+				})
+				.then(() => {
+					res.status(200).send("berhasil");
+				})
+				.catch(function (err) {
+					res.status(400).send("gagal");
+					console.log(err);
+				});
+		});
 	} catch (err) {
 		res.status(400).send("nudes");
 		console.log(err);
