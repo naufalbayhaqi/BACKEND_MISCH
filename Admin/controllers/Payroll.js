@@ -46,6 +46,7 @@ export const getPayroll = async (req, res) => {
 				[Sequelize.col("scholar.alias"), "alias"],
 				[Sequelize.col("scholar.ingameslp"), "slp_total"],
 				[Sequelize.col("scholar.tenant.nama"), "tenant"],
+				[Sequelize.col("scholar.tenant.id"), "tenantId"],
 				[
 					Sequelize.fn(
 						"ROUND",
@@ -142,6 +143,7 @@ export const getBatch = async (req, res) => {
 					attributes: ["id", "nama"],
 				},
 			},
+			raw: true,
 		});
 		res.send(tol).status(200);
 	} catch (err) {
