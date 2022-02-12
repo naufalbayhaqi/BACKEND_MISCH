@@ -120,7 +120,10 @@ export const deletePayroll = async (req, res) => {
 				batch: req.body.nama,
 			},
 		});
-	} catch (err) {}
+		res.status(200).send("berhasil");
+	} catch (err) {
+		res.send(err).status(400);
+	}
 };
 
 export const getBatch = async (req, res) => {
