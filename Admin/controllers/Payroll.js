@@ -12,7 +12,7 @@ export const addPayroll = async (req, res) => {
 		var len = req.body.id.length;
 		for (var i = 0; i < len; i++) {
 			arr.push({
-				userId: req.body.id[i],
+				scholarId: req.body.id[i],
 				batch: req.body.nama,
 			});
 		}
@@ -31,28 +31,40 @@ export const getPayroll = async (req, res) => {
 			include: {
 				model: Scholar,
 				attributes: [],
+				include: {
+					model: Tenant,
+					attributes: [],
+				},
 			},
-			attributes: {
-				include: [
-					[
-						Sequelize.fn(
-							"ROUND",
+			attributes: [
+				"*",
+				[Sequelize.col("scholar.nama"), "nama"],
+				[Sequelize.col("scholar.alias"), "alias"],
+				[Sequelize.col("scholar.ingameslp"), "slp_total"],
+				[Sequelize.col("scholar.tenant.nama"), "tenant"],
+				[
+					Sequelize.fn(
+						"ROUND",
+						Sequelize.cast(
 							Sequelize.literal("scholar.scholarpshare*slp/100"),
-							2
+							"float"
 						),
-						"scholar",
-					],
-
-					[
-						Sequelize.fn(
-							"ROUND",
-							Sequelize.literal("scholar.ownerpshare*slp/100"),
-							2
-						),
-						"owner",
-					],
+						2
+					),
+					"scholar",
 				],
-			},
+				[
+					Sequelize.fn(
+						"ROUND",
+						Sequelize.cast(
+							Sequelize.literal("scholar.ownerpshare*slp/100"),
+							"float"
+						),
+						2
+					),
+					"owner",
+				],
+			],
 			raw: true,
 		});
 		res.send(payroll).status(200);
