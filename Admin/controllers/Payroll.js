@@ -8,16 +8,21 @@ import Payroll from "../models/PayrollModel.js";
 
 export const addPayroll = async (req, res) => {
 	try {
-		var arr = [];
-		var len = req.body.id.length;
-		for (var i = 0; i < len; i++) {
-			arr.push({
-				scholarId: req.body.id[i],
-				batch: req.body.nama,
-			});
+		if (req.body.nama && req.body.id.length > 0) {
+			var arr = [];
+			var len = req.body.id.length;
+			for (var i = 0; i < len; i++) {
+				arr.push({
+					scholarId: req.body.id[i],
+					batch: req.body.nama,
+					fee: req.body.fee,
+				});
+			}
+			await Payroll.bulkCreate(arr);
+			res.status(200).send("BENAR");
+		} else {
+			res.status(400).send("KONTOL");
 		}
-		await Payroll.bulkCreate(arr);
-		res.status(200).send("BENAR");
 	} catch (err) {
 		res.send(err).status(400);
 	}
@@ -74,16 +79,13 @@ export const getPayroll = async (req, res) => {
 
 export const editPayroll = async (req, res) => {
 	try {
-		// var arr = [];
-		// var len = req.body.id.length;
-		// for (var i = 0; i < len; i++) {
-		// 	arr.push({
-		// 		userId: req.body.id[i],
-		// 		batch: req.body.slp[i],
-		// 	});
-		// }
-		// console.log(arr);
-	} catch (err) {}
+		await Payroll.bulkCreate(req.body.data, {
+			updateOnDuplicate: ["slp", "status"],
+		});
+		res.send("berhasil").status(200);
+	} catch (err) {
+		res.send(err).status(400);
+	}
 };
 
 export const deletePayroll = async (req, res) => {
