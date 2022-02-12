@@ -152,13 +152,13 @@ export const getBatch = async (req, res) => {
 };
 
 export const finalize = async (req, res) => {
-	try {
-		db.transaction(async function (t) {
-			return SLP.destroy({
-				where: { tenantId: req.body.tenantId },
-				transaction: t,
-			});
-		}).then(function (t) {
+	db.transaction(async function (t) {
+		return SLP.destroy({
+			where: { tenantId: req.body.tenantId },
+			transaction: t,
+		});
+	})
+		.then(function (t) {
 			return Scholar.update(
 				{ average: 0 },
 				{
@@ -166,9 +166,11 @@ export const finalize = async (req, res) => {
 					transaction: t,
 				}
 			);
+		})
+		.then(() => {
+			res.status(200).send("berhasil");
+		})
+		.catch(function (err) {
+			res.status(400).send("gagal");
 		});
-		res.status(200).send("berhasil");
-	} catch (err) {
-		res.send(err).status(400);
-	}
 };
